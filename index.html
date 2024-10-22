@@ -87,7 +87,7 @@
 
     <script>
         if (sessionStorage.getItem('loggedIn')) {
-            window.location.href = 'capturePhoto.html';
+            window.location.href = './capturePhoto';
         }
 
         document.getElementById('loginButton').addEventListener('click', () => {
@@ -104,7 +104,7 @@
             sessionStorage.setItem('loggedIn', 'true');
 
             // Redirect to photo capture page
-            window.location.href = 'capturePhoto.html';
+            window.location.href = './capturePhoto';
         });
     </script>
 </body>

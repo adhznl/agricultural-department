@@ -95,7 +95,7 @@
         function isWithinLoginHours() {
             const today = new Date();
             const hours = today.getUTCHours() + 5.5; // Convert UTC to IST
-            return hours >= 10 && hours < 14; // 10 AM to 2 PM
+            return hours >= 8 && hours < 14; // 8 AM to 2 PM
         }
 
         if (sessionStorage.getItem('loggedIn')) {
@@ -112,7 +112,7 @@
             }
 
             if (!isWithinLoginHours()) {
-                alert("Please try to login during your school hours (10 AM to 2 PM IST).");
+                alert("Please try to login during your school hours (8 AM to 2 PM IST).");
                 return;
             }
 

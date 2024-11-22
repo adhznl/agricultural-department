@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agricultural Science Department - Ambassador Login Portal</title>
     <style>
+        /* Body Styling */
         body {
             font-family: Arial, sans-serif;
             display: flex;
@@ -12,35 +13,47 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #f7f7f7;
+            background-image: url('hz.jpg'); /* Replace with your image URL */
+            background-size: cover;
+            background-position: center;
+            color: white; /* Adjusted text color for visibility */
+            position: relative;
         }
+
+        /* Maintenance message box */
         .maintenance-message {
             text-align: center;
-            background-color: #fff;
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             width: 80%;
             max-width: 600px;
         }
+
         h1 {
             color: #d9534f;
         }
+
         p {
             font-size: 18px;
             color: #555;
         }
+
         .reason {
             font-size: 16px;
             color: #999;
             margin-top: 20px;
         }
+
         .countdown {
             font-size: 20px;
             color: #5bc0de;
             font-weight: bold;
             margin-top: 20px;
         }
+
+        /* Spinner Animation */
         .spinner {
             margin-top: 20px;
             display: inline-block;
@@ -51,13 +64,33 @@
             border-top: 5px solid #d9534f;
             animation: spin 1s linear infinite;
         }
+
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        /* Upper right corner note */
+        .maintenance-note {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
+    <!-- Maintenance note in the upper right corner -->
+    <div class="maintenance-note">
+        <p>Site will remain closed until November 24, 12:00 AM</p>
+    </div>
+
+    <!-- Maintenance message box -->
     <div class="maintenance-message">
         <h1>We Are Currently Under Maintenance</h1>
         <p>Our website is undergoing some important updates to improve your experience. We are working hard to bring everything back online as soon as possible.</p>
@@ -65,7 +98,6 @@
         <div class="reason">
             <p><strong>Reason for Maintenance:</strong> We're upgrading our systems and enhancing security to serve you better.</p>
         </div>
-    
 
         <div class="spinner"></div>
 

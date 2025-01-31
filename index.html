@@ -3,127 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agricultural Science Department - Ambassador Login Portal</title>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Under Maintenance</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            background-image: url('hz.jpg');
-            background-size: cover;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
             color: #333;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            position: relative;
+            text-align: center;
+            padding: 50px;
         }
         .container {
-            background: rgba(255, 255, 255, 0.95);
+            background-color: #fff;
+            border-radius: 8px;
             padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-            width: 90%;
-            max-width: 800px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            max-width: 600px;
+            margin: 0 auto;
         }
-        h1, h2 {
-            color: #2c3e50;
-            text-align: center;
-        }
-        img.logo {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 100px;
-        }
-        .input-container {
-            display: flex;
-            width: 100%;
-            justify-content: space-between;
+        h1 {
+            color: #e74c3c;
+            font-size: 48px;
             margin-bottom: 20px;
         }
-        input {
-            flex-grow: 1;
-            margin-right: 10px;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
+        p {
+            font-size: 18px;
+            line-height: 1.6;
         }
-        button {
-            background-color: #3498db;
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s ease, transform 0.2s ease;
+        .cta {
+            margin-top: 30px;
+            font-weight: bold;
+            color: #3498db;
+            font-size: 20px;
         }
-        button:hover {
-            background-color: #2980b9;
-            transform: scale(1.05);
-        }
-        .ads-container {
-            display: none; /* This will hide the entire ads section */
+        .footer {
+            margin-top: 50px;
+            font-size: 14px;
+            color: #777;
         }
     </style>
 </head>
 <body>
-    <img src="images.png" alt="University Logo" class="logo">
     <div class="container">
-        <h1>Agricultural Science Department</h1>
-        <h2>Ambassador Login Portal</h2>
-        <div class="input-container">
-            <input type="text" id="userId" placeholder="Enter your User ID" required>
-            <input type="password" id="password" placeholder="Enter your Password" required>
-            <button id="loginButton">Login</button>
-        </div>
+        <h1>Site Under Maintenance</h1>
+        <p>We are currently performing some scheduled maintenance. Our team is working hard to bring the site back online as soon as possible.</p>
+        <p>Please try again on the next working day. We appreciate your patience!</p>
+        <div class="cta">Thank you for your understanding.</div>
     </div>
 
-    <script>
-        function isWeekend() {
-            const today = new Date();
-            const day = today.getDay();
-            return day === 0 || day === 6;
-        }
-
-        function isWithinLoginHours() {
-            const today = new Date();
-            const hours = today.getUTCHours() + 5.5; // Convert UTC to IST
-            return hours >= 8 && hours < 14; // 8 AM to 2 PM
-        }
-
-        if (sessionStorage.getItem('loggedIn')) {
-            window.location.href = './capturePhoto';
-        }
-
-        document.getElementById('loginButton').addEventListener('click', () => {
-            const userId = document.getElementById('userId').value;
-            const password = document.getElementById('password').value;
-
-            if (isWeekend()) {
-                alert("Try again on a working day.");
-                return;
-            }
-
-            if (!isWithinLoginHours()) {
-                alert("Please try to login during your school hours (8 AM to 2 PM IST).");
-                return;
-            }
-
-            if (!userId || password !== 'LKumar212') {
-                alert("Invalid User ID or Password.");
-                return;
-            }
-
-            sessionStorage.setItem('loggedIn', 'true');
-            window.location.href = './capturePhoto';
-        });
-    </script>
+    <div class="footer">
+        <p>&copy; 2025 Your Website Name. All rights reserved.</p>
+    </div>
 </body>
 </html>

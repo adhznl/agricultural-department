@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agricultural Science Department - Under Maintenance</title>
+    <title>Agricultural Science Department - Ambassador Login Portal</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -18,18 +18,7 @@
             justify-content: center;
             height: 100vh;
             position: relative;
-            animation: fadeIn 2s ease-in-out;
         }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
         .container {
             background: rgba(255, 255, 255, 0.95);
             padding: 40px;
@@ -40,46 +29,45 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            animation: fadeIn 2s ease-in-out;
         }
-
         h1, h2 {
             color: #2c3e50;
             text-align: center;
         }
-
         img.logo {
             position: absolute;
             top: 20px;
             right: 20px;
             width: 100px;
         }
-
-        .message-container {
-            text-align: center;
-            animation: fadeIn 3s ease-in-out;
-        }
-
-        .message-container h2 {
-            font-size: 36px;
-            color: #e74c3c;
+        .input-container {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
             margin-bottom: 20px;
-            animation: fadeIn 3s ease-in-out;
         }
-
-        .message-container p {
-            font-size: 18px;
-            color: #555;
-            animation: fadeIn 3s ease-in-out;
+        input {
+            flex-grow: 1;
+            margin-right: 10px;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
         }
-
-        .portal-closed {
-            font-size: 18px;
-            color: #2c3e50;
-            font-weight: bold;
-            margin-top: 30px;
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
-
+        button:hover {
+            background-color: #2980b9;
+            transform: scale(1.05);
+        }
         .ads-container {
             display: none; /* This will hide the entire ads section */
         }
@@ -88,14 +76,54 @@
 <body>
     <img src="images.png" alt="University Logo" class="logo">
     <div class="container">
-        <div class="message-container">
-            <h2>We're Currently Under Maintenance</h2>
-            <p>We apologize for the inconvenience. Our services are temporarily unavailable. The portal will remain closed until:</p>
-            <div class="portal-closed">
-                <p><strong>25th February 2025, 11:00 AM IST</strong></p>
-            </div>
-            <p>Please check back after this time. Thank you for your patience!</p>
+        <h1>Agricultural Science Department</h1>
+        <h2>Ambassador Login Portal</h2>
+        <div class="input-container">
+            <input type="text" id="userId" placeholder="Enter your User ID" required>
+            <input type="password" id="password" placeholder="Enter your Password" required>
+            <button id="loginButton">Login</button>
         </div>
     </div>
+
+    <script>
+        function isWeekend() {
+            const today = new Date();
+            const day = today.getDay();
+            return day === 0 || day === 6;
+        }
+
+        function isWithinLoginHours() {
+            const today = new Date();
+            const hours = today.getUTCHours() + 5.5; // Convert UTC to IST
+            return hours >= 8 && hours < 14; // 8 AM to 2 PM
+        }
+
+        if (sessionStorage.getItem('loggedIn')) {
+            window.location.href = './capturePhoto';
+        }
+
+        document.getElementById('loginButton').addEventListener('click', () => {
+            const userId = document.getElementById('userId').value;
+            const password = document.getElementById('password').value;
+
+            if (isWeekend()) {
+                alert("Try again on a working day.");
+                return;
+            }
+
+            if (!isWithinLoginHours()) {
+                alert("Please try to login during your school hours (8 AM to 2 PM IST).");
+                return;
+            }
+
+            if (!userId || password !== 'LKumar212') {
+                alert("Invalid User ID or Password.");
+                return;
+            }
+
+            sessionStorage.setItem('loggedIn', 'true');
+            window.location.href = './capturePhoto';
+        });
+    </script>
 </body>
 </html>

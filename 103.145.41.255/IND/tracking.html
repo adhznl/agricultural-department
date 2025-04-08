@@ -276,7 +276,7 @@
     <div id="sidebar" class="sidebar">
         <div class="logo">Department Portal</div>
         <a href="javascript:void(0);" onclick="showProfileModal()">Profile</a>
-        <a href="javascript:void(0);" onclick="trackApplication()">Track MVV Application</a>
+        <a href="javascript:void(0);" onclick="showMVVTrackingModal()">Track MVV Application</a>
         <a href="javascript:void(0);" onclick="logout()">Logout</a>
     </div>
 
@@ -307,6 +307,15 @@
                 <span id="loadingText">Fetching Data...</span>
                 <div class="percentage" id="loadingPercentage">0%</div>
             </div>
+        </div>
+    </div>
+
+    <!-- MVV Tracking Modal -->
+    <div id="mvvTrackingModal" class="id-card-modal">
+        <div class="id-card-modal-content">
+            <h2>MVV Application Tracking</h2>
+            <p>Data fetched successfully. Your tracking details are now available.</p>
+            <button onclick="closeMVVTrackingModal()">Close</button>
         </div>
     </div>
 
@@ -413,7 +422,18 @@
 
         // Show the dashboard
         function showDashboard() {
-            alert("Dashboard: MVV Application Tracking.");
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('sidebar').style.display = 'block';
+        }
+
+        // Show MVV Tracking Modal
+        function showMVVTrackingModal() {
+            document.getElementById('mvvTrackingModal').style.display = 'block';
+        }
+
+        // Close MVV Tracking Modal
+        function closeMVVTrackingModal() {
+            document.getElementById('mvvTrackingModal').style.display = 'none';
         }
 
         // Logout function

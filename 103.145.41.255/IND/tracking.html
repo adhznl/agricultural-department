@@ -5,97 +5,75 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agricultural Science Department - Ambassador Login Portal</title>
     <style>
-        /* Styling for the entire page */
+        /* Basic styling */
         body {
-            font-family: 'Arial', sans-serif;
-            background-image: url('hz.jpg');
-            background-size: cover;
-            color: #333;
+            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            background-color: #f4f4f4;
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
             height: 100vh;
-            position: relative;
         }
         .container {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-            width: 90%;
-            max-width: 800px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            flex: 1;
+            padding: 20px;
         }
         h1, h2 {
             color: #2c3e50;
             text-align: center;
         }
-        img.logo {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 100px;
-        }
-        .input-container {
+
+        /* Sidebar Styles */
+        .sidebar {
+            height: 100%;
+            width: 250px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #333;
+            padding-top: 20px;
             display: flex;
-            width: 100%;
+            flex-direction: column;
             justify-content: space-between;
-            margin-bottom: 20px;
+            z-index: 100;
         }
-        input {
-            flex-grow: 1;
-            margin-right: 10px;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-        button {
-            background-color: #3498db;
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
-        button:hover {
-            background-color: #2980b9;
-            transform: scale(1.05);
-        }
-        .dashboard-container {
-            display: none; /* Initially hidden, shown after successful login */
-            background: rgba(255, 255, 255, 0.95);
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-            width: 90%;
-            max-width: 800px;
-        }
-        .dashboard-option {
-            background-color: #3498db;
-            color: white;
-            border: none;
+        .sidebar a {
             padding: 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            width: 100%;
-            margin: 10px 0;
+            text-decoration: none;
+            font-size: 18px;
+            color: white;
+            display: block;
+            transition: 0.3s;
+        }
+        .sidebar a:hover {
+            background-color: #575757;
+        }
+
+        .sidebar .logo {
             text-align: center;
-            transition: background-color 0.3s ease, transform 0.2s ease;
+            color: white;
+            font-size: 22px;
+            margin-bottom: 30px;
         }
-        .dashboard-option:hover {
-            background-color: #2980b9;
-            transform: scale(1.05);
+
+        /* Content Area */
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            flex: 1;
+            background-color: #fff;
+            height: 100vh;
+            overflow: auto;
         }
-        /* Profile Modal Styles */
+
+        /* Dashboard Content */
+        .dashboard-container {
+            display: none;
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* Modal Styles for Profile */
         .modal {
             display: none;
             position: fixed;
@@ -114,6 +92,7 @@
             border-radius: 10px;
             width: 70%;
             max-width: 600px;
+            text-align: center;
         }
         .modal-content img {
             width: 150px;
@@ -122,52 +101,66 @@
         }
         .close {
             color: #aaa;
-            float: right;
             font-size: 28px;
             font-weight: bold;
+            position: absolute;
+            top: 10px;
+            right: 20px;
         }
         .close:hover,
         .close:focus {
             color: black;
-            text-decoration: none;
             cursor: pointer;
+        }
+
+        /* Hide or show elements based on login status */
+        .hidden {
+            display: none;
         }
     </style>
 </head>
 <body>
-    <img src="images.png" alt="University Logo" class="logo">
+    <!-- Sidebar -->
+    <div id="sidebar" class="sidebar">
+        <div class="logo">Agricultural Science</div>
+        <a href="javascript:void(0);" onclick="showDashboard()">Dashboard</a>
+        <a href="javascript:void(0);" onclick="trackApplication()">Track Your MVV Application</a>
+        <a href="javascript:void(0);" onclick="viewProfile()">View Profile</a>
+        <a href="javascript:void(0);" onclick="logout()">Logout</a>
+    </div>
 
-    <!-- Login Form -->
-    <div id="loginForm" class="container">
-        <h1>Agricultural Science Department</h1>
-        <h2>Ambassador Login Portal</h2>
-        <div class="input-container">
-            <input type="text" id="userId" placeholder="Enter your User ID" required>
-            <input type="password" id="password" placeholder="Enter your Password" required>
-            <button id="loginButton">Login</button>
+    <!-- Content Section -->
+    <div class="content">
+        <!-- Login Form -->
+        <div id="loginForm" class="container">
+            <h1>Agricultural Science Department</h1>
+            <h2>Ambassador Login Portal</h2>
+            <div class="input-container">
+                <input type="text" id="userId" placeholder="Enter your User ID" required>
+                <input type="password" id="password" placeholder="Enter your Password" required>
+                <button id="loginButton">Login</button>
+            </div>
         </div>
-    </div>
 
-    <!-- Dashboard -->
-    <div id="dashboard" class="dashboard-container">
-        <h1>Welcome to the Dashboard</h1>
-        <button class="dashboard-option" onclick="trackApplication()">Track Your MVV Application</button>
-        <button class="dashboard-option" onclick="viewProfile()">View Your Profile</button>
-        <button class="dashboard-option" onclick="logout()">Logout</button>
-    </div>
+        <!-- Dashboard Section -->
+        <div id="dashboard" class="dashboard-container hidden">
+            <h1>Welcome to Your Dashboard</h1>
+            <p>Here you can track your application and view your profile.</p>
+        </div>
 
-    <!-- Profile Modal -->
-    <div id="profileModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeProfile()">&times;</span>
-            <h2>Profile Details</h2>
-            <img src="profile-picture.jpg" alt="Profile Picture">
-            <p><strong>Name:</strong> John Doe</p>
-            <p><strong>Designation:</strong> Ambassador</p>
-            <p><strong>Date of Birth:</strong> January 1, 1990</p>
-            <p><strong>Blood Group:</strong> O+</p>
-            <p><strong>Email:</strong> johndoe@example.com</p>
-            <p><strong>Phone:</strong> +1234567890</p>
+        <!-- Profile Modal -->
+        <div id="profileModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeProfile()">&times;</span>
+                <h2>Profile Details</h2>
+                <img src="profile-picture.jpg" alt="Profile Picture">
+                <p><strong>Name:</strong> John Doe</p>
+                <p><strong>Designation:</strong> Ambassador</p>
+                <p><strong>Date of Birth:</strong> January 1, 1990</p>
+                <p><strong>Blood Group:</strong> O+</p>
+                <p><strong>Email:</strong> johndoe@example.com</p>
+                <p><strong>Phone:</strong> +1234567890</p>
+            </div>
         </div>
     </div>
 
@@ -184,11 +177,6 @@
             const today = new Date();
             const hours = today.getUTCHours() + 5.5; // Convert UTC to IST
             return hours >= 8 && hours < 14; // 8 AM to 2 PM
-        }
-
-        // Check if the user is already logged in using sessionStorage
-        if (sessionStorage.getItem('loggedIn')) {
-            showDashboard(); // If logged in, show the dashboard
         }
 
         // Handle the login process
@@ -222,13 +210,14 @@
         // Show the dashboard and hide the login form
         function showDashboard() {
             document.getElementById('loginForm').style.display = 'none';  // Hide login form
-            document.getElementById('dashboard').style.display = 'block';  // Show dashboard
+            document.getElementById('sidebar').style.display = 'block';  // Show sidebar
+            document.getElementById('dashboard').style.display = 'block';  // Show dashboard content
         }
 
-        // Functions for dashboard options
+        // Dashboard options
         function trackApplication() {
             alert("You can track your MVV application here.");
-            // You can replace this with a dynamic application tracking section.
+            // You can replace this alert with actual functionality.
         }
 
         function viewProfile() {
@@ -246,7 +235,10 @@
             window.location.reload();  // Reload the page to show the login form again
         }
 
+        // If already logged in, show the dashboard
+        if (sessionStorage.getItem('loggedIn')) {
+            showDashboard();
+        }
     </script>
-
 </body>
 </html>

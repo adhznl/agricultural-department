@@ -6,22 +6,21 @@
     <title>HZ University Ambassador Login Portal</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            background-image: url('hz.jpg'); /* Background image for the page */
+            font-family: 'Arial', sans-serif;
+            background-image: url('hz.jpg');
             background-size: cover;
             background-position: center;
-            color: #333;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
         }
 
-        /* Login Form Styles */
+        /* Login Page Styles */
         .login-container {
-            background: rgba(255, 255, 255, 0.95); /* Semi-transparent white background */
+            background: rgba(255, 255, 255, 0.9);
             padding: 40px;
             border-radius: 10px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
@@ -38,10 +37,8 @@
         }
 
         img.logo {
-            position: absolute;
-            top: 20px;
-            right: 20px;
             width: 100px;
+            margin-bottom: 20px;
         }
 
         .input-container {
@@ -59,6 +56,7 @@
         }
 
         button {
+            width: 100%;
             background-color: #3498db;
             color: white;
             border: none;
@@ -66,7 +64,6 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
-            width: 100%;
             transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
@@ -79,16 +76,22 @@
         .dashboard-container {
             display: none;
             width: 100%;
-            padding: 20px;
+            height: 100vh;
             background-color: rgba(255, 255, 255, 0.9);
-            border-radius: 10px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            border-radius: 0;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
             align-items: center;
         }
 
+        /* Sidebar */
         .sidebar {
             position: fixed;
             top: 0;
@@ -109,6 +112,8 @@
             color: white;
             text-decoration: none;
             padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
             transition: 0.3s;
         }
 
@@ -122,38 +127,21 @@
             margin-bottom: 30px;
         }
 
-        /* Profile Modal */
-        .profile-modal {
-            display: none;
-            position: fixed;
-            top: 20%;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #fff;
-            padding: 30px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
-            width: 60%;
-            max-width: 500px;
+        /* Dashboard Content */
+        .dashboard-content {
+            margin-left: 250px;
+            padding: 40px;
+            flex: 1;
+            background-color: white;
         }
 
-        .close-modal {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 20px;
-            color: #aaa;
-            cursor: pointer;
-        }
-
-        /* Grid Layout for Dashboard content */
         .dashboard-options {
-            display: grid;
-            grid-template-columns: repeat(1, 1fr); /* Initially 1 column layout */
+            display: flex;
+            flex-direction: column;
             gap: 20px;
             width: 100%;
-            max-width: 600px;
-            margin-top: 30px;
+            max-width: 500px;
+            margin-top: 50px;
         }
 
         .dashboard-option {
@@ -170,19 +158,13 @@
             background-color: #2980b9;
             transform: scale(1.05);
         }
-
-        /* Responsiveness */
-        @media (max-width: 768px) {
-            .dashboard-options {
-                grid-template-columns: repeat(1, 1fr); /* Stack in single column for smaller screens */
-            }
-        }
     </style>
 </head>
 <body>
 
     <!-- Login Form Section -->
     <div id="loginForm" class="login-container">
+        <img src="images.png" alt="University Logo" class="logo">
         <h1>HZ University</h1>
         <h2>Ambassador Login Portal</h2>
         <div class="input-container">
@@ -192,27 +174,29 @@
         </div>
     </div>
 
-    <!-- Sidebar (Dashboard Navigation) -->
-    <div id="sidebar" class="sidebar hidden">
-        <div class="logo">HZ University</div>
-        <a href="javascript:void(0);" onclick="viewProfile()">View Profile</a>
-        <a href="javascript:void(0);" onclick="trackApplication()">Track Your MVV Application</a>
-        <a href="javascript:void(0);" onclick="logout()">Logout</a>
-    </div>
-
     <!-- Dashboard Section -->
-    <div id="dashboard" class="dashboard-container hidden">
-        <h1>Welcome to Your Dashboard</h1>
-        <p>Here you can manage your MVV application and view your profile.</p>
-        <div class="dashboard-options">
-            <div class="dashboard-option" onclick="trackApplication()">Track MVV Application</div>
-            <div class="dashboard-option" onclick="viewProfile()">View Profile</div>
-            <div class="dashboard-option" onclick="logout()">Logout</div>
+    <div id="dashboard" class="dashboard-container">
+        <div id="sidebar" class="sidebar">
+            <div class="logo">HZ University</div>
+            <a href="javascript:void(0);" onclick="viewProfile()">View Profile</a>
+            <a href="javascript:void(0);" onclick="trackApplication()">Track Your MVV Application</a>
+            <a href="javascript:void(0);" onclick="logout()">Logout</a>
+        </div>
+
+        <!-- Dashboard Content -->
+        <div id="dashboardContent" class="dashboard-content">
+            <h1>Welcome to Your Dashboard</h1>
+            <p>Manage your MVV application and view your profile below.</p>
+            <div class="dashboard-options">
+                <div class="dashboard-option" onclick="trackApplication()">Track MVV Application</div>
+                <div class="dashboard-option" onclick="viewProfile()">View Profile</div>
+                <div class="dashboard-option" onclick="logout()">Logout</div>
+            </div>
         </div>
     </div>
 
     <!-- Profile Modal -->
-    <div id="profileModal" class="profile-modal">
+    <div id="profileModal" class="profile-modal" style="display: none;">
         <span class="close-modal" onclick="closeProfile()">&times;</span>
         <h2>Profile Details</h2>
         <img src="profile-picture.jpg" alt="Profile Picture" style="width: 150px; height: 150px; border-radius: 50%;">
@@ -225,21 +209,21 @@
     </div>
 
     <script>
-        // Function to check if it's the weekend
+        // Check if it's the weekend
         function isWeekend() {
             const today = new Date();
             const day = today.getDay();
             return day === 0 || day === 6;
         }
 
-        // Function to check if the login time is within the allowed range
+        // Check if the login time is within allowed hours (8 AM to 2 PM IST)
         function isWithinLoginHours() {
             const today = new Date();
             const hours = today.getUTCHours() + 5.5; // Convert UTC to IST
-            return hours >= 8 && hours < 14; // 8 AM to 2 PM
+            return hours >= 8 && hours < 14;
         }
 
-        // Handle the login process
+        // Login function
         document.getElementById('loginButton').addEventListener('click', () => {
             const userId = document.getElementById('userId').value;
             const password = document.getElementById('password').value;
@@ -256,46 +240,45 @@
                 return;
             }
 
-            // Check if the credentials are correct (you can replace this with your authentication system)
+            // Check credentials (replace this with actual authentication logic)
             if (!userId || password !== 'LKumar212') {
                 alert("Invalid User ID or Password.");
                 return;
             }
 
-            // If login is successful
+            // Successful login
             sessionStorage.setItem('loggedIn', 'true');
             showDashboard(); // Show the dashboard
         });
 
-        // Show the dashboard and hide the login form
+        // Show the dashboard after successful login
         function showDashboard() {
             document.getElementById('loginForm').style.display = 'none';  // Hide login form
-            document.getElementById('sidebar').style.display = 'block';  // Show sidebar
-            document.getElementById('dashboard').style.display = 'block';  // Show dashboard content
+            document.getElementById('dashboard').style.display = 'flex';  // Show dashboard
         }
 
-        // Show profile modal
+        // Show Profile Modal
         function viewProfile() {
             document.getElementById('profileModal').style.display = 'block';
         }
 
-        // Close profile modal
+        // Close Profile Modal
         function closeProfile() {
             document.getElementById('profileModal').style.display = 'none';
         }
 
-        // Track MVV Application (Placeholder function)
+        // Track Application Function
         function trackApplication() {
             alert("You can track your MVV application here.");
         }
 
-        // Logout and reset the session
+        // Logout Function
         function logout() {
             sessionStorage.removeItem('loggedIn');
-            window.location.reload();  // Reload the page to show the login form again
+            window.location.reload();  // Reload to show login form again
         }
 
-        // If already logged in, show the dashboard
+        // Check if the user is already logged in
         if (sessionStorage.getItem('loggedIn')) {
             showDashboard();
         }

@@ -16,18 +16,18 @@
             overflow: hidden;
         }
 
-        /* Left section with background image */
+        /* Left section with background image (70% width) */
         .left-section {
-            width: 50%; /* Set to 50% so the background image doesn't take the entire screen */
+            width: 70%; /* Set to 70% so the background image takes up more space */
             background-image: url('hz.jpg');
             background-size: cover;
             background-position: center;
             height: 100%;
         }
 
-        /* Right section (login form area) */
+        /* Right section (login form area, 30% width) */
         .right-section {
-            width: 50%; /* Set the right section to take up the other half */
+            width: 30%; /* Set to 30% so the login form takes up less space */
             background-color: white;
             display: flex;
             justify-content: center;
@@ -234,10 +234,10 @@
 
 <body>
 
-    <!-- Left Section (Background Image) -->
+    <!-- Left Section (Background Image, 70% width) -->
     <div class="left-section"></div>
 
-    <!-- Right Section (Login Form Area) -->
+    <!-- Right Section (Login Form Area, 30% width) -->
     <div class="right-section">
         <!-- Login Form Container -->
         <div id="loginForm" class="login-container">

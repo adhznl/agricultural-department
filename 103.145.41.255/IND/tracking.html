@@ -249,13 +249,13 @@
             const userId = document.getElementById('userId').value;
             const password = document.getElementById('password').value;
 
-            if (!userId || password !== 'Lalit123') { // Password check
+            // User credentials check
+            if (userId === "LAL84624" && password === "LKumar212") {
+                sessionStorage.setItem('loggedIn', 'true');
+                showDashboard(); // Show the dashboard
+            } else {
                 alert("Invalid User ID or Password.");
-                return;
             }
-
-            sessionStorage.setItem('loggedIn', 'true');
-            showDashboard(); // Show the dashboard
         });
 
         // Show the dashboard and hide the login form

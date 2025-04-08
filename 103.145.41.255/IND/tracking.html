@@ -226,8 +226,38 @@
                 transform: translateY(0);
             }
         }
+
+        /* Loader Styles */
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .loading span {
+            font-size: 18px;
+        }
+
+        .loader {
+            border: 10px solid #f3f3f3;
+            border-top: 10px solid #34b6c1;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 2s linear infinite;
+            margin-top: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .percentage {
+            font-size: 16px;
+            color: #34b6c1;
+        }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/tesseract.js"></script>
 </head>
 <body>
 
@@ -245,16 +275,9 @@
     <!-- Sidebar -->
     <div id="sidebar" class="sidebar">
         <div class="logo">Department Portal</div>
-        <a href="javascript:void(0);" onclick="showDashboard()">Dashboard</a>
-        <a href="javascript:void(0);" onclick="trackApplication()">Track MVV Application</a>
         <a href="javascript:void(0);" onclick="showProfileModal()">Profile</a>
+        <a href="javascript:void(0);" onclick="trackApplication()">Track MVV Application</a>
         <a href="javascript:void(0);" onclick="logout()">Logout</a>
-    </div>
-
-    <!-- Dashboard Section -->
-    <div id="dashboard" class="dashboard-container">
-        <h1>Welcome to Your Dashboard</h1>
-        <p>Use the sidebar to track your MVV application.</p>
     </div>
 
     <!-- Profile Modal -->
@@ -273,31 +296,21 @@
     </div>
 
     <!-- ID Card Scan Section -->
-    <div id="idCardScanSection" class="container" style="display: none;">
-        <h2>Verify ID Card</h2>
-        <video id="video" autoplay></video>
-        <div class="result" id="matchResult"></div>
-    </div>
-
-    <!-- ID Card Modal -->
     <div id="idCardModal" class="id-card-modal">
         <div class="id-card-modal-content">
             <span class="close" onclick="closeIdCardModal()">&times;</span>
             <h2>Scan ID Card</h2>
             <video id="idCardVideo" autoplay></video>
             <div class="result" id="idCardMatchResult"></div>
+            <div class="loading" id="loadingSection">
+                <div class="loader"></div>
+                <span id="loadingText">Fetching Data...</span>
+                <div class="percentage" id="loadingPercentage">0%</div>
+            </div>
         </div>
     </div>
 
-    <!-- Post ID Scan Modal -->
-    <div id="postScanModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closePostScanModal()">&times;</span>
-            <h2>Verification Successful!</h2>
-            <p>Your ID Card has been verified successfully. You can now proceed with tracking MVV.</p>
-            <button onclick="trackMVV()">Track MVV</button>
-        </div>
-    </div>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js"></script>
 
     <script>
         // Handle the login process
@@ -308,25 +321,11 @@
             // Check user credentials
             if (userId === "LAL84624" && password === "LKumar212") {
                 sessionStorage.setItem('loggedIn', 'true');
-                showDashboard(); // Show the dashboard
+                showIdCardModal(); // Show ID Card modal for scanning
             } else {
                 alert("Invalid User ID or Password.");
             }
         });
-
-        // Show the dashboard and hide the login form
-        function showDashboard() {
-            document.getElementById('loginForm').style.display = 'none';
-            document.getElementById('sidebar').style.display = 'block';
-            document.getElementById('dashboard').style.display = 'block';
-        }
-
-        // Track MVV application (ID Card verification)
-        function trackApplication() {
-            document.getElementById('idCardScanSection').style.display = 'none';
-            showIdCardModal();  // Show ID card modal for scanning
-            startCamera();
-        }
 
         // Show Profile Modal
         function showProfileModal() {
@@ -341,6 +340,7 @@
         // Show ID Card Modal
         function showIdCardModal() {
             document.getElementById('idCardModal').style.display = 'block';
+            startCamera();
         }
 
         // Close ID Card Modal
@@ -348,16 +348,9 @@
             document.getElementById('idCardModal').style.display = 'none';
         }
 
-        // Logout function
-        function logout() {
-            sessionStorage.removeItem('loggedIn');
-            window.location.reload();  // Reload the page to show the login form again
-        }
-
         // Start the camera for ID card scanning
         function startCamera() {
             const video = document.getElementById('idCardVideo');
-
             navigator.mediaDevices.getUserMedia({ video: true })
                 .then(stream => {
                     video.srcObject = stream;
@@ -386,9 +379,7 @@
 
                     if (cleanedText.includes("Department")) {
                         document.getElementById('idCardMatchResult').innerText = "ID Card verified successfully!";
-                        setTimeout(() => {
-                            showPostScanModal(); // Show post scan modal
-                        }, 2000);
+                        startLoadingData();
                     } else {
                         document.getElementById('idCardMatchResult').innerText = "ID Card details do not match. Trying again...";
                         setTimeout(verifyIDCard, 3000);
@@ -401,24 +392,34 @@
                 });
         }
 
-        // Show post scan modal
-        function showPostScanModal() {
-            document.getElementById('postScanModal').style.display = 'block';
+        // Start loading simulation for fetching data
+        function startLoadingData() {
+            let percentage = 0;
+            document.getElementById('loadingSection').style.display = 'block';
+            let interval = setInterval(() => {
+                if (percentage < 100) {
+                    percentage++;
+                    document.getElementById('loadingPercentage').innerText = `${percentage}%`;
+                } else {
+                    clearInterval(interval);
+                    document.getElementById('loadingText').innerText = "Data Fetched Successfully!";
+                    setTimeout(() => {
+                        closeIdCardModal();
+                        showDashboard();
+                    }, 1500);
+                }
+            }, 300);
         }
 
-        // Close post scan modal
-        function closePostScanModal() {
-            document.getElementById('postScanModal').style.display = 'none';
+        // Show the dashboard
+        function showDashboard() {
+            alert("Dashboard: MVV Application Tracking.");
         }
 
-        // If already logged in, show the dashboard
-        if (sessionStorage.getItem('loggedIn')) {
-            showDashboard();
-        }
-
-        // Track MVV
-        function trackMVV() {
-            alert("Tracking MVV...");
+        // Logout function
+        function logout() {
+            sessionStorage.removeItem('loggedIn');
+            window.location.reload();  // Reload the page to show the login form again
         }
     </script>
 </body>

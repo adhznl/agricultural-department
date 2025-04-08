@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agricultural Science Department - Ambassador Login Portal</title>
+    <title>Department Login Portal</title>
     <style>
         /* Basic styling */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-image: url('hz.jpg'); /* Add your background image */
+            background-image: url('hz.jpg'); /* Background image */
             background-size: cover;
             background-position: center;
             height: 100vh;
@@ -21,7 +20,7 @@
             align-items: center;
         }
 
-        /* Container for the form */
+        /* Login form container */
         .login-container {
             background: rgba(255, 255, 255, 0.9); /* Slightly transparent background */
             padding: 40px;
@@ -130,7 +129,7 @@
             text-align: center;
         }
 
-        /* Profile Modal */
+        /* Modal for Profile Details */
         .modal {
             display: none;
             position: fixed;
@@ -192,24 +191,31 @@
             }
         }
 
-        /* Hide or show elements based on login status */
-        .hidden {
-            display: none;
+        /* ID Card Verification Styles */
+        .container {
+            margin-top: 20px;
+            text-align: center;
         }
 
-        .input-container {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+        video {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+            color: red;
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js"></script>
 </head>
-
 <body>
     <!-- Login Form Container -->
     <div id="loginForm" class="login-container">
-        <h1>Agricultural Science Department</h1>
-        <h2>Ambassador Login Portal</h2>
+        <h1>Department Portal</h1>
+        <h2>Login Portal</h2>
         <div class="input-container">
             <input type="text" id="userId" placeholder="Enter your User ID" required>
             <input type="password" id="password" placeholder="Enter your Password" required>
@@ -219,9 +225,9 @@
 
     <!-- Sidebar -->
     <div id="sidebar" class="sidebar hidden">
-        <div class="logo">Agricultural Science</div>
+        <div class="logo">Department Portal</div>
         <a href="javascript:void(0);" onclick="showDashboard()">Dashboard</a>
-        <a href="javascript:void(0);" onclick="trackApplication()">Track Your MVV Application</a>
+        <a href="javascript:void(0);" onclick="trackApplication()">Track MVV Application</a>
         <a href="javascript:void(0);" onclick="viewProfile()">View Profile</a>
         <a href="javascript:void(0);" onclick="logout()">Logout</a>
     </div>
@@ -229,86 +235,55 @@
     <!-- Dashboard Section -->
     <div id="dashboard" class="dashboard-container hidden">
         <h1>Welcome to Your Dashboard</h1>
-        <p>Welcome! The "Track Your MVV Application" and "View Profile" options are available in the sidebar.</p>
+        <p>Use the sidebar to track your MVV application or view your profile.</p>
     </div>
 
-    <!-- Profile Modal -->
-    <div id="profileModal" class="modal">
+    <!-- ID Card Scan Section -->
+    <div id="idCardScanSection" class="container hidden">
+        <h2>Verify ID Card</h2>
+        <video id="video" autoplay></video>
+        <div class="result" id="matchResult"></div>
+    </div>
+
+    <!-- Post ID Scan Modal -->
+    <div id="postScanModal" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeProfile()">&times;</span>
-            <h2>Profile Details</h2>
-            <p><strong>Name:</strong> Lalit Kumar</p>
-            <p><strong>Designation:</strong> Junior Ambassador Officer</p>
-            <p><strong>Staff ID:</strong> LAL84624</p>
-            <p><strong>Date of Birth:</strong> 29/07/2005</p>
-            <p><strong>Blood Group:</strong> B Ve+</p>
-            <p><strong>Email:</strong> Lakshaybhadrecha@gmail.com</p>
+            <span class="close" onclick="closePostScanModal()">&times;</span>
+            <h2>Verification Successful!</h2>
+            <p>Your ID Card has been verified successfully. You can now proceed with tracking MVV.</p>
+            <button onclick="trackMVV()">Track MVV</button>
         </div>
     </div>
 
     <script>
-        // Function to check if it's the weekend
-        function isWeekend() {
-            const today = new Date();
-            const day = today.getDay();
-            return day === 0 || day === 6;
-        }
-
-        // Function to check if the login time is within the allowed range
-        function isWithinLoginHours() {
-            const today = new Date();
-            const hours = today.getUTCHours() + 5.5; // Convert UTC to IST
-            return hours >= 8 && hours < 14; // 8 AM to 2 PM
-        }
-
         // Handle the login process
         document.getElementById('loginButton').addEventListener('click', () => {
             const userId = document.getElementById('userId').value;
             const password = document.getElementById('password').value;
 
-            // Check if it's the weekend
-            if (isWeekend()) {
-                alert("Try again on a working day.");
-                return;
-            }
-
-            // Check if it's within login hours
-            if (!isWithinLoginHours()) {
-                alert("Please try to login during your school hours (8 AM to 2 PM IST).");
-                return;
-            }
-
-            // Check if the credentials are correct
-            if (!userId || password !== 'LKumar212') {
+            if (!userId || password !== 'Lalit123') { // Change this password check as needed
                 alert("Invalid User ID or Password.");
                 return;
             }
 
-            // If login is successful
             sessionStorage.setItem('loggedIn', 'true');
             showDashboard(); // Show the dashboard
         });
 
         // Show the dashboard and hide the login form
         function showDashboard() {
-            document.getElementById('loginForm').style.display = 'none';  // Hide login form
-            document.getElementById('sidebar').style.display = 'block';  // Show sidebar
-            document.getElementById('dashboard').style.display = 'block';  // Show dashboard content
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('sidebar').style.display = 'block';
+            document.getElementById('dashboard').style.display = 'block';
         }
 
-        // Dashboard options
         function trackApplication() {
-            alert("You can track your MVV application here.");
+            document.getElementById('idCardScanSection').classList.remove('hidden');
+            startCamera();
         }
 
         function viewProfile() {
-            // Show profile modal
-            document.getElementById('profileModal').style.display = 'block';
-        }
-
-        function closeProfile() {
-            // Close profile modal
-            document.getElementById('profileModal').style.display = 'none';
+            alert("Profile functionality is under construction.");
         }
 
         function logout() {
@@ -316,11 +291,72 @@
             window.location.reload();  // Reload the page to show the login form again
         }
 
+        // Start the camera for ID card scanning
+        function startCamera() {
+            const video = document.getElementById('video');
+
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    video.srcObject = stream;
+                    setTimeout(() => {
+                        verifyIDCard();
+                    }, 2000);
+                })
+                .catch(err => {
+                    console.error("Error accessing camera: ", err);
+                });
+        }
+
+        // Verify ID Card with OCR (Tesseract.js)
+        function verifyIDCard() {
+            const video = document.getElementById('video');
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0);
+            const idCardImageData = canvas.toDataURL('image/png');
+
+            Tesseract.recognize(idCardImageData, 'eng')
+                .then(({ data: { text } }) => {
+                    const cleanedText = text.replace(/\s+/g, ' ').trim();
+
+                    if (cleanedText.includes("Department")) {
+                        document.getElementById('matchResult').innerText = "ID Card verified successfully!";
+                        setTimeout(() => {
+                            showPostScanModal(); // Show post scan modal
+                        }, 2000);
+                    } else {
+                        document.getElementById('matchResult').innerText = "ID Card details do not match. Trying again...";
+                        setTimeout(verifyIDCard, 3000);
+                    }
+                })
+                .catch(err => {
+                    console.error("Error recognizing text: ", err);
+                    document.getElementById('matchResult').innerText = "Failed to recognize text from ID card. Trying again...";
+                    setTimeout(verifyIDCard, 3000);
+                });
+        }
+
+        // Show post scan modal
+        function showPostScanModal() {
+            document.getElementById('postScanModal').style.display = 'block';
+        }
+
+        // Close post scan modal
+        function closePostScanModal() {
+            document.getElementById('postScanModal').style.display = 'none';
+        }
+
         // If already logged in, show the dashboard
         if (sessionStorage.getItem('loggedIn')) {
             showDashboard();
         }
+
+        // Track MVV
+        function trackMVV() {
+            alert("Tracking MVV...");
+        }
     </script>
 </body>
-
 </html>

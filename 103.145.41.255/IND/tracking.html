@@ -5,22 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agricultural Science Department - Ambassador Login Portal</title>
     <style>
-        /* Basic styling */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
-            display: flex;
+            background-image: url('background.jpg'); /* Add your background image here */
+            background-size: cover;
+            background-position: center;
             height: 100vh;
+            display: flex;
+            flex-direction: row;
         }
+
         .container {
             flex: 1;
             padding: 20px;
+            color: #fff;
         }
+
         h1, h2 {
-            color: #2c3e50;
             text-align: center;
+            color: #fff;
         }
 
         /* Sidebar Styles */
@@ -34,9 +39,10 @@
             padding-top: 20px;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
             z-index: 100;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
         }
+
         .sidebar a {
             padding: 15px;
             text-decoration: none;
@@ -45,6 +51,7 @@
             display: block;
             transition: 0.3s;
         }
+
         .sidebar a:hover {
             background-color: #575757;
         }
@@ -56,24 +63,36 @@
             margin-bottom: 30px;
         }
 
+        .sidebar .profile-info {
+            color: white;
+            font-size: 14px;
+            margin-bottom: 30px;
+            padding: 10px;
+        }
+
+        .sidebar .profile-info img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+
         /* Content Area */
         .content {
             margin-left: 250px;
             padding: 20px;
             flex: 1;
-            background-color: #fff;
-            height: 100vh;
-            overflow: auto;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
 
-        /* Dashboard Content */
         .dashboard-container {
             display: none;
             padding: 20px;
             text-align: center;
         }
 
-        /* Modal Styles for Profile */
+        /* Profile Modal */
         .modal {
             display: none;
             position: fixed;
@@ -123,6 +142,11 @@
     <!-- Sidebar -->
     <div id="sidebar" class="sidebar">
         <div class="logo">Agricultural Science</div>
+        <div class="profile-info">
+            <img src="profile.jpg" alt="Profile Picture">
+            <p><strong>John Doe</strong></p>
+            <p>Ambassador</p>
+        </div>
         <a href="javascript:void(0);" onclick="showDashboard()">Dashboard</a>
         <a href="javascript:void(0);" onclick="trackApplication()">Track Your MVV Application</a>
         <a href="javascript:void(0);" onclick="viewProfile()">View Profile</a>
@@ -146,6 +170,7 @@
         <div id="dashboard" class="dashboard-container hidden">
             <h1>Welcome to Your Dashboard</h1>
             <p>Here you can track your application and view your profile.</p>
+            <button onclick="trackApplication()">Track Application</button>
         </div>
 
         <!-- Profile Modal -->
@@ -153,7 +178,7 @@
             <div class="modal-content">
                 <span class="close" onclick="closeProfile()">&times;</span>
                 <h2>Profile Details</h2>
-                <img src="profile-picture.jpg" alt="Profile Picture">
+                <img src="profile.jpg" alt="Profile Picture">
                 <p><strong>Name:</strong> John Doe</p>
                 <p><strong>Designation:</strong> Ambassador</p>
                 <p><strong>Date of Birth:</strong> January 1, 1990</p>

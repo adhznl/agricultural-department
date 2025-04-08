@@ -139,7 +139,7 @@
         }
 
         /* Modal for Profile Details */
-        .modal {
+        .profile-modal {
             display: none;
             position: fixed;
             z-index: 1;
@@ -152,7 +152,7 @@
             animation: fadeIn 0.3s ease;
         }
 
-        .modal-content {
+        .profile-modal-content {
             background-color: white;
             margin: 10% auto;
             padding: 20px;
@@ -163,7 +163,7 @@
             animation: slideUp 0.4s ease;
         }
 
-        .close {
+        .profile-modal .close {
             color: #aaa;
             font-size: 28px;
             font-weight: bold;
@@ -173,10 +173,39 @@
             cursor: pointer;
         }
 
-        .close:hover,
-        .close:focus {
+        .profile-modal .close:hover,
+        .profile-modal .close:focus {
             color: black;
             cursor: pointer;
+        }
+
+        .profile-info {
+            font-size: 18px;
+            margin-top: 15px;
+        }
+
+        /* Modal for ID Card Scan */
+        .id-card-modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            overflow: auto;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .id-card-modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 70%;
+            max-width: 600px;
+            text-align: center;
         }
 
         /* Keyframe Animations */
@@ -218,6 +247,7 @@
         <div class="logo">Department Portal</div>
         <a href="javascript:void(0);" onclick="showDashboard()">Dashboard</a>
         <a href="javascript:void(0);" onclick="trackApplication()">Track MVV Application</a>
+        <a href="javascript:void(0);" onclick="showProfileModal()">Profile</a>
         <a href="javascript:void(0);" onclick="logout()">Logout</a>
     </div>
 
@@ -227,11 +257,36 @@
         <p>Use the sidebar to track your MVV application.</p>
     </div>
 
+    <!-- Profile Modal -->
+    <div id="profileModal" class="profile-modal">
+        <div class="profile-modal-content">
+            <span class="close" onclick="closeProfileModal()">&times;</span>
+            <h2>Profile Information</h2>
+            <div class="profile-info">
+                <p><strong>Name:</strong> Lalit Kumar</p>
+                <p><strong>Designation:</strong> Junior Ambassador</p>
+                <p><strong>Date of Birth:</strong> 29/07/2005</p>
+                <p><strong>Blood Group:</strong> B+ve</p>
+                <p><strong>Staff ID:</strong> LAL84624</p>
+            </div>
+        </div>
+    </div>
+
     <!-- ID Card Scan Section -->
     <div id="idCardScanSection" class="container" style="display: none;">
         <h2>Verify ID Card</h2>
         <video id="video" autoplay></video>
         <div class="result" id="matchResult"></div>
+    </div>
+
+    <!-- ID Card Modal -->
+    <div id="idCardModal" class="id-card-modal">
+        <div class="id-card-modal-content">
+            <span class="close" onclick="closeIdCardModal()">&times;</span>
+            <h2>Scan ID Card</h2>
+            <video id="idCardVideo" autoplay></video>
+            <div class="result" id="idCardMatchResult"></div>
+        </div>
     </div>
 
     <!-- Post ID Scan Modal -->
@@ -268,8 +323,29 @@
 
         // Track MVV application (ID Card verification)
         function trackApplication() {
-            document.getElementById('idCardScanSection').style.display = 'block';
+            document.getElementById('idCardScanSection').style.display = 'none';
+            showIdCardModal();  // Show ID card modal for scanning
             startCamera();
+        }
+
+        // Show Profile Modal
+        function showProfileModal() {
+            document.getElementById('profileModal').style.display = 'block';
+        }
+
+        // Close Profile Modal
+        function closeProfileModal() {
+            document.getElementById('profileModal').style.display = 'none';
+        }
+
+        // Show ID Card Modal
+        function showIdCardModal() {
+            document.getElementById('idCardModal').style.display = 'block';
+        }
+
+        // Close ID Card Modal
+        function closeIdCardModal() {
+            document.getElementById('idCardModal').style.display = 'none';
         }
 
         // Logout function
@@ -280,7 +356,7 @@
 
         // Start the camera for ID card scanning
         function startCamera() {
-            const video = document.getElementById('video');
+            const video = document.getElementById('idCardVideo');
 
             navigator.mediaDevices.getUserMedia({ video: true })
                 .then(stream => {
@@ -296,7 +372,7 @@
 
         // Verify ID Card with OCR (Tesseract.js)
         function verifyIDCard() {
-            const video = document.getElementById('video');
+            const video = document.getElementById('idCardVideo');
             const canvas = document.createElement('canvas');
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
@@ -309,18 +385,18 @@
                     const cleanedText = text.replace(/\s+/g, ' ').trim();
 
                     if (cleanedText.includes("Department")) {
-                        document.getElementById('matchResult').innerText = "ID Card verified successfully!";
+                        document.getElementById('idCardMatchResult').innerText = "ID Card verified successfully!";
                         setTimeout(() => {
                             showPostScanModal(); // Show post scan modal
                         }, 2000);
                     } else {
-                        document.getElementById('matchResult').innerText = "ID Card details do not match. Trying again...";
+                        document.getElementById('idCardMatchResult').innerText = "ID Card details do not match. Trying again...";
                         setTimeout(verifyIDCard, 3000);
                     }
                 })
                 .catch(err => {
                     console.error("Error recognizing text: ", err);
-                    document.getElementById('matchResult').innerText = "Failed to recognize text from ID card. Trying again...";
+                    document.getElementById('idCardMatchResult').innerText = "Failed to recognize text from ID card. Trying again...";
                     setTimeout(verifyIDCard, 3000);
                 });
         }

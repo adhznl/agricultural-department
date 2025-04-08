@@ -358,10 +358,13 @@
         }
 
         // Start the camera for ID card scanning
+        let videoStream = null;
+
         function startCamera() {
             const video = document.getElementById('idCardVideo');
             navigator.mediaDevices.getUserMedia({ video: true })
                 .then(stream => {
+                    videoStream = stream;
                     video.srcObject = stream;
                     setTimeout(() => {
                         verifyIDCard();
@@ -388,6 +391,7 @@
 
                     if (cleanedText.includes("Department")) {
                         document.getElementById('idCardMatchResult').innerText = "ID Card verified successfully!";
+                        stopCamera();
                         startLoadingData();
                     } else {
                         document.getElementById('idCardMatchResult').innerText = "ID Card details do not match. Trying again...";
@@ -399,6 +403,15 @@
                     document.getElementById('idCardMatchResult').innerText = "Failed to recognize text from ID card. Trying again...";
                     setTimeout(verifyIDCard, 3000);
                 });
+        }
+
+        // Stop the video stream once the ID card is verified
+        function stopCamera() {
+            if (videoStream) {
+                const tracks = videoStream.getTracks();
+                tracks.forEach(track => track.stop());
+                document.getElementById('idCardVideo').style.display = 'none'; // Hide the video element
+            }
         }
 
         // Start loading simulation for fetching data

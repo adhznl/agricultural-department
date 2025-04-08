@@ -257,47 +257,6 @@
             font-size: 16px;
             color: #34b6c1;
         }
-
-        /* MVV Update Modal */
-        .mvv-update-modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            overflow: auto;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .mvv-update-modal-content {
-            background-color: white;
-            margin: 10% auto;
-            padding: 20px;
-            border-radius: 10px;
-            width: 70%;
-            max-width: 600px;
-            text-align: center;
-        }
-
-        .mvv-update-modal .close {
-            color: #aaa;
-            font-size: 28px;
-            font-weight: bold;
-            position: absolute;
-            top: 10px;
-            right: 20px;
-            cursor: pointer;
-        }
-
-        .mvv-update-modal .close:hover,
-        .mvv-update-modal .close:focus {
-            color: black;
-            cursor: pointer;
-        }
-
     </style>
 </head>
 <body>
@@ -336,21 +295,27 @@
         </div>
     </div>
 
-    <!-- MVV Application Tracking Modal -->
+    <!-- ID Card Scan Section -->
+    <div id="idCardModal" class="id-card-modal">
+        <div class="id-card-modal-content">
+            <span class="close" onclick="closeIdCardModal()">&times;</span>
+            <h2>Scan ID Card</h2>
+            <video id="idCardVideo" autoplay></video>
+            <div class="result" id="idCardMatchResult"></div>
+            <div class="loading" id="loadingSection">
+                <div class="loader"></div>
+                <span id="loadingText">Fetching Data...</span>
+                <div class="percentage" id="loadingPercentage">0%</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MVV Tracking Modal -->
     <div id="mvvTrackingModal" class="id-card-modal">
         <div class="id-card-modal-content">
             <h2>MVV Application Tracking</h2>
             <p>Data fetched successfully. Your tracking details are now available.</p>
-            <button onclick="showMVVUpdateModal()">View Update</button>
-        </div>
-    </div>
-
-    <!-- MVV Update Modal -->
-    <div id="mvvUpdateModal" class="mvv-update-modal">
-        <div class="mvv-update-modal-content">
-            <span class="close" onclick="closeMVVUpdateModal()">&times;</span>
-            <h2>Your MVV File Status</h2>
-            <p>Your MVV file has been forwarded to the Immigration Department of Netherlands for processing.</p>
+            <button onclick="closeMVVTrackingModal()">Close</button>
         </div>
     </div>
 
@@ -381,6 +346,99 @@
             document.getElementById('profileModal').style.display = 'none';
         }
 
+        // Show ID Card Modal
+        function showIdCardModal() {
+            document.getElementById('idCardModal').style.display = 'block';
+            startCamera();
+        }
+
+        // Close ID Card Modal
+        function closeIdCardModal() {
+            document.getElementById('idCardModal').style.display = 'none';
+        }
+
+        // Start the camera for ID card scanning
+        let videoStream = null;
+
+        function startCamera() {
+            const video = document.getElementById('idCardVideo');
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    videoStream = stream;
+                    video.srcObject = stream;
+                    setTimeout(() => {
+                        verifyIDCard();
+                    }, 2000);
+                })
+                .catch(err => {
+                    console.error("Error accessing camera: ", err);
+                });
+        }
+
+        // Verify ID Card with OCR (Tesseract.js)
+        function verifyIDCard() {
+            const video = document.getElementById('idCardVideo');
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0);
+            const idCardImageData = canvas.toDataURL('image/png');
+
+            Tesseract.recognize(idCardImageData, 'eng')
+                .then(({ data: { text } }) => {
+                    const cleanedText = text.replace(/\s+/g, ' ').trim();
+
+                    if (cleanedText.includes("Department")) {
+                        document.getElementById('idCardMatchResult').innerText = "ID Card verified successfully!";
+                        stopCamera();
+                        startLoadingData();
+                    } else {
+                        document.getElementById('idCardMatchResult').innerText = "ID Card details do not match. Trying again...";
+                        setTimeout(verifyIDCard, 3000);
+                    }
+                })
+                .catch(err => {
+                    console.error("Error recognizing text: ", err);
+                    document.getElementById('idCardMatchResult').innerText = "Failed to recognize text from ID card. Trying again...";
+                    setTimeout(verifyIDCard, 3000);
+                });
+        }
+
+        // Stop the video stream once the ID card is verified
+        function stopCamera() {
+            if (videoStream) {
+                const tracks = videoStream.getTracks();
+                tracks.forEach(track => track.stop());
+                document.getElementById('idCardVideo').style.display = 'none'; // Hide the video element
+            }
+        }
+
+        // Start loading simulation for fetching data
+        function startLoadingData() {
+            let percentage = 0;
+            document.getElementById('loadingSection').style.display = 'block';
+            let interval = setInterval(() => {
+                if (percentage < 100) {
+                    percentage++;
+                    document.getElementById('loadingPercentage').innerText = `${percentage}%`;
+                } else {
+                    clearInterval(interval);
+                    document.getElementById('loadingText').innerText = "Data Fetched Successfully!";
+                    setTimeout(() => {
+                        closeIdCardModal();
+                        showDashboard();
+                    }, 1500);
+                }
+            }, 300);
+        }
+
+        // Show the dashboard
+        function showDashboard() {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('sidebar').style.display = 'block';
+        }
+
         // Show MVV Tracking Modal
         function showMVVTrackingModal() {
             document.getElementById('mvvTrackingModal').style.display = 'block';
@@ -389,16 +447,6 @@
         // Close MVV Tracking Modal
         function closeMVVTrackingModal() {
             document.getElementById('mvvTrackingModal').style.display = 'none';
-        }
-
-        // Show MVV Update Modal
-        function showMVVUpdateModal() {
-            document.getElementById('mvvUpdateModal').style.display = 'block';
-        }
-
-        // Close MVV Update Modal
-        function closeMVVUpdateModal() {
-            document.getElementById('mvvUpdateModal').style.display = 'none';
         }
 
         // Logout function

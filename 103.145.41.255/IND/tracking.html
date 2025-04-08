@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HZ University Ambassador Login Portal</title>
+    <title>Agricultural Science Department - Ambassador Login Portal</title>
     <style>
         /* Basic styling */
         body {
@@ -21,7 +22,8 @@
             padding: 20px;
         }
 
-        h1, h2 {
+        h1,
+        h2 {
             color: #fff;
             text-align: center;
         }
@@ -32,13 +34,12 @@
             width: 250px;
             position: fixed;
             top: 0;
-            left: -250px;
+            left: 0;
             background-color: #333;
             padding-top: 20px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transition: left 0.3s ease-in-out;
             z-index: 100;
             box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
         }
@@ -68,7 +69,7 @@
 
         /* Content Area */
         .content {
-            margin-left: 0;
+            margin-left: 250px;
             padding: 30px;
             flex: 1;
             background-color: #fff;
@@ -132,22 +133,6 @@
             color: black;
         }
 
-        .profile-box {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 20px;
-        }
-
-        .profile-box button {
-            background-color: #34b6c1;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
         /* Keyframe Animations */
         @keyframes fadeIn {
             from {
@@ -180,14 +165,16 @@
             gap: 10px;
         }
 
-        input, button {
+        input,
+        button {
             padding: 12px;
             border-radius: 8px;
             border: 1px solid #ccc;
             font-size: 16px;
         }
 
-        input:focus, button:focus {
+        input:focus,
+        button:focus {
             outline: none;
             border-color: #34b6c1;
         }
@@ -204,10 +191,11 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Sidebar -->
     <div id="sidebar" class="sidebar">
-        <div class="logo">HZ University</div>
+        <div class="logo">Agricultural Science</div>
         <a href="javascript:void(0);" onclick="showDashboard()">Dashboard</a>
         <a href="javascript:void(0);" onclick="trackApplication()">Track Your MVV Application</a>
         <a href="javascript:void(0);" onclick="viewProfile()">View Profile</a>
@@ -218,8 +206,8 @@
     <div class="content">
         <!-- Login Form -->
         <div id="loginForm" class="container">
-            <h1>HZ University Ambassador Login Portal</h1>
-            <h2>Welcome, Please Login</h2>
+            <h1>Agricultural Science Department</h1>
+            <h2>Ambassador Login Portal</h2>
             <div class="input-container">
                 <input type="text" id="userId" placeholder="Enter your User ID" required>
                 <input type="password" id="password" placeholder="Enter your Password" required>
@@ -246,9 +234,6 @@
                 <p><strong>Blood Group:</strong> O+</p>
                 <p><strong>Email:</strong> johndoe@example.com</p>
                 <p><strong>Phone:</strong> +1234567890</p>
-                <div class="profile-box">
-                    <button onclick="closeProfile()">Close Profile</button>
-                </div>
             </div>
         </div>
     </div>
@@ -299,21 +284,24 @@
         // Show the dashboard and hide the login form
         function showDashboard() {
             document.getElementById('loginForm').style.display = 'none'; // Hide login form
-            document.getElementById('sidebar').style.left = '0'; // Slide in the sidebar
+            document.getElementById('sidebar').style.display = 'block'; // Show sidebar
             document.getElementById('dashboard').style.display = 'block'; // Show dashboard content
         }
 
         // Dashboard options
         function trackApplication() {
             alert("You can track your MVV application here.");
+            // You can replace this alert with actual functionality.
         }
 
         function viewProfile() {
-            document.getElementById('profileModal').style.display = 'block'; // Open profile modal
+            // Show profile modal
+            document.getElementById('profileModal').style.display = 'block';
         }
 
         function closeProfile() {
-            document.getElementById('profileModal').style.display = 'none'; // Close profile modal
+            // Close profile modal
+            document.getElementById('profileModal').style.display = 'none';
         }
 
         function logout() {
@@ -327,4 +315,5 @@
         }
     </script>
 </body>
+
 </html>

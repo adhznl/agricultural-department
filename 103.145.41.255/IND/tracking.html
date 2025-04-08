@@ -5,252 +5,180 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HZ University Ambassador Login Portal</title>
     <style>
-        /* Basic styling */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
+            background-image: url('hz.jpg'); /* Make sure to use your desired background image here */
+            background-size: cover;
+            color: #333;
             margin: 0;
             padding: 0;
-            background: linear-gradient(to right, #34b6c1, #2e8b8d);
             display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             height: 100vh;
-            overflow: hidden;
+            position: relative;
+            background-position: center;
         }
 
+        /* Container holding the login form */
         .container {
-            flex: 1;
-            padding: 20px;
+            background: rgba(255, 255, 255, 0.95); /* Semi-transparent white background */
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 400px; /* Adjust the max width for better readability */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
         }
 
         h1, h2 {
-            color: #fff;
-            text-align: center;
+            color: #2c3e50;
         }
 
-        /* Sidebar Styles */
-        .sidebar {
-            height: 100%;
-            width: 250px;
-            position: fixed;
-            top: 0;
-            left: -250px;
-            background-color: #333;
-            padding-top: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: left 0.3s ease-in-out;
-            z-index: 100;
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        /* University Logo in the top right corner */
+        img.logo {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 100px;
         }
 
-        .sidebar a {
-            padding: 15px;
-            text-decoration: none;
-            font-size: 18px;
-            color: white;
-            display: block;
-            transition: 0.3s ease;
-            border-bottom: 1px solid #444;
-        }
-
-        .sidebar a:hover {
-            background-color: #575757;
-            transform: scale(1.05);
-        }
-
-        .sidebar .logo {
-            text-align: center;
-            color: white;
-            font-size: 22px;
-            margin-bottom: 30px;
-            font-weight: bold;
-        }
-
-        /* Content Area */
-        .content {
-            margin-left: 0;
-            padding: 30px;
-            flex: 1;
-            background-color: #fff;
-            height: 100vh;
-            overflow-y: auto;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-        }
-
-        /* Dashboard Content */
-        .dashboard-container {
-            display: none;
-            padding: 20px;
-            text-align: center;
-        }
-
-        /* Profile Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
+        /* Input fields and button styles */
+        .input-container {
             width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            overflow: auto;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .modal-content {
-            background-color: white;
-            margin: 10% auto;
-            padding: 20px;
-            border-radius: 10px;
-            width: 70%;
-            max-width: 600px;
-            text-align: center;
-            animation: slideUp 0.4s ease;
-        }
-
-        .modal-content img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
             margin-bottom: 20px;
         }
 
-        .modal .close {
-            color: #aaa;
-            font-size: 28px;
-            font-weight: bold;
-            position: absolute;
-            top: 10px;
-            right: 20px;
-            cursor: pointer;
-        }
-
-        .modal .close:hover,
-        .modal .close:focus {
-            color: black;
-        }
-
-        .profile-box {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 20px;
-        }
-
-        .profile-box button {
-            background-color: #34b6c1;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        /* Keyframe Animations */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes slideUp {
-            from {
-                transform: translateY(20px);
-            }
-
-            to {
-                transform: translateY(0);
-            }
-        }
-
-        /* Hide or show elements based on login status */
-        .hidden {
-            display: none;
-        }
-
-        .input-container {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        input, button {
+        input {
+            width: 100%;
             padding: 12px;
-            border-radius: 8px;
             border: 1px solid #ccc;
+            border-radius: 5px;
             font-size: 16px;
-        }
-
-        input:focus, button:focus {
-            outline: none;
-            border-color: #34b6c1;
+            margin-bottom: 10px;
         }
 
         button {
-            background-color: #34b6c1;
+            background-color: #3498db;
             color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            font-size: 16px;
+            width: 100%;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
         button:hover {
-            background-color: #2e8b8d;
+            background-color: #2980b9;
+            transform: scale(1.05);
         }
+
+        .dashboard-container {
+            display: none;
+            width: 100%;
+            text-align: center;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 100%;
+            background-color: #2c3e50;
+            padding: 20px;
+            color: white;
+            font-size: 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            z-index: 100;
+            display: none;
+        }
+
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: #2980b9;
+        }
+
+        .profile-modal {
+            display: none;
+            position: fixed;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #fff;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            width: 60%;
+            max-width: 500px;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            color: #aaa;
+            cursor: pointer;
+        }
+
     </style>
 </head>
 <body>
-    <!-- Sidebar -->
+
+    <!-- University Logo at the top-right corner -->
+    <img src="images.png" alt="University Logo" class="logo"> <!-- Replace with your actual logo image path -->
+
+    <!-- Login Form Container -->
+    <div id="loginForm" class="container">
+        <h1>HZ University</h1>
+        <h2>Ambassador Login Portal</h2>
+        <div class="input-container">
+            <input type="text" id="userId" placeholder="Enter your User ID" required>
+            <input type="password" id="password" placeholder="Enter your Password" required>
+            <button id="loginButton">Login</button>
+        </div>
+    </div>
+
+    <!-- Sidebar for Dashboard (hidden by default) -->
     <div id="sidebar" class="sidebar">
-        <div class="logo">HZ University</div>
-        <a href="javascript:void(0);" onclick="showDashboard()">Dashboard</a>
-        <a href="javascript:void(0);" onclick="trackApplication()">Track Your MVV Application</a>
+        <h2>Dashboard</h2>
         <a href="javascript:void(0);" onclick="viewProfile()">View Profile</a>
+        <a href="javascript:void(0);" onclick="trackApplication()">Track Your MVV Application</a>
         <a href="javascript:void(0);" onclick="logout()">Logout</a>
     </div>
 
-    <!-- Content Section -->
-    <div class="content">
-        <!-- Login Form -->
-        <div id="loginForm" class="container">
-            <h1>HZ University Ambassador Login Portal</h1>
-            <h2>Welcome, Please Login</h2>
-            <div class="input-container">
-                <input type="text" id="userId" placeholder="Enter your User ID" required>
-                <input type="password" id="password" placeholder="Enter your Password" required>
-                <button id="loginButton">Login</button>
-            </div>
-        </div>
+    <!-- Dashboard Section (hidden by default) -->
+    <div id="dashboard" class="dashboard-container">
+        <h1>Welcome to Your Dashboard</h1>
+        <p>Track your MVV application status here.</p>
+    </div>
 
-        <!-- Dashboard Section -->
-        <div id="dashboard" class="dashboard-container hidden">
-            <h1>Welcome to Your Dashboard</h1>
-            <p>Here you can track your application and view your profile.</p>
-            <button onclick="trackApplication()">Track Your Application</button>
-        </div>
-
-        <!-- Profile Modal -->
-        <div id="profileModal" class="modal">
-            <div class="modal-content">
-                <span class="close" onclick="closeProfile()">&times;</span>
-                <h2>Profile Details</h2>
-                <img src="profile-picture.jpg" alt="Profile Picture">
-                <p><strong>Name:</strong> John Doe</p>
-                <p><strong>Designation:</strong> Ambassador</p>
-                <p><strong>Date of Birth:</strong> January 1, 1990</p>
-                <p><strong>Blood Group:</strong> O+</p>
-                <p><strong>Email:</strong> johndoe@example.com</p>
-                <p><strong>Phone:</strong> +1234567890</p>
-                <div class="profile-box">
-                    <button onclick="closeProfile()">Close Profile</button>
-                </div>
-            </div>
-        </div>
+    <!-- Profile Modal -->
+    <div id="profileModal" class="profile-modal">
+        <span class="close-modal" onclick="closeProfile()">&times;</span>
+        <h2>Profile Details</h2>
+        <img src="profile-picture.jpg" alt="Profile Picture" style="width: 150px; height: 150px; border-radius: 50%;">
+        <p><strong>Name:</strong> John Doe</p>
+        <p><strong>Designation:</strong> Ambassador</p>
+        <p><strong>Date of Birth:</strong> January 1, 1990</p>
+        <p><strong>Blood Group:</strong> O+</p>
+        <p><strong>Email:</strong> johndoe@example.com</p>
+        <p><strong>Phone:</strong> +1234567890</p>
     </div>
 
     <script>
@@ -285,7 +213,7 @@
                 return;
             }
 
-            // Check if the credentials are correct
+            // Check if the credentials are correct (you can replace this with your authentication system)
             if (!userId || password !== 'LKumar212') {
                 alert("Invalid User ID or Password.");
                 return;
@@ -298,27 +226,28 @@
 
         // Show the dashboard and hide the login form
         function showDashboard() {
-            document.getElementById('loginForm').style.display = 'none'; // Hide login form
-            document.getElementById('sidebar').style.left = '0'; // Slide in the sidebar
-            document.getElementById('dashboard').style.display = 'block'; // Show dashboard content
+            document.getElementById('loginForm').style.display = 'none';  // Hide login form
+            document.getElementById('sidebar').style.display = 'block';  // Show sidebar
+            document.getElementById('dashboard').style.display = 'block';  // Show dashboard content
         }
 
         // Dashboard options
         function trackApplication() {
             alert("You can track your MVV application here.");
+            // You can replace this alert with actual functionality.
         }
 
         function viewProfile() {
-            document.getElementById('profileModal').style.display = 'block'; // Open profile modal
+            document.getElementById('profileModal').style.display = 'block';  // Show profile modal
         }
 
         function closeProfile() {
-            document.getElementById('profileModal').style.display = 'none'; // Close profile modal
+            document.getElementById('profileModal').style.display = 'none';  // Close profile modal
         }
 
         function logout() {
             sessionStorage.removeItem('loggedIn');
-            window.location.reload(); // Reload the page to show the login form again
+            window.location.reload();  // Reload the page to show the login form again
         }
 
         // If already logged in, show the dashboard

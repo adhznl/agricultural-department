@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,19 +11,32 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-image: url('hz.jpg'); /* Background image */
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        /* Left section with background image */
+        .left-section {
+            width: 4in;
+            background-image: url('hz.jpg');
             background-size: cover;
             background-position: center;
-            height: 100vh;
-            background: linear-gradient(to right, #34b6c1, #2e8b8d);
+            height: 100%;
+        }
+
+        /* Right section (login form area) */
+        .right-section {
+            width: calc(100% - 4in);
+            background-color: white;
             display: flex;
             justify-content: center;
             align-items: center;
+            padding: 20px;
         }
 
         /* Login form container */
         .login-container {
-            background: rgba(255, 255, 255, 0.9); /* Slightly transparent background */
             padding: 40px;
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
@@ -113,31 +127,6 @@
             margin-bottom: 30px;
         }
 
-        /* Dashboard Content */
-        .dashboard-container {
-            display: none;
-            padding: 20px;
-            text-align: center;
-        }
-
-        /* ID Card Verification Styles */
-        .container {
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        video {
-            width: 100%;
-            max-width: 500px;
-            height: auto;
-        }
-
-        .result {
-            margin-top: 20px;
-            font-weight: bold;
-            color: red;
-        }
-
         /* Modal for Profile Details */
         .profile-modal {
             display: none;
@@ -184,35 +173,12 @@
             margin-top: 15px;
         }
 
-        /* Modal for ID Card Scan */
-        .id-card-modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            overflow: auto;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .id-card-modal-content {
-            background-color: white;
-            margin: 10% auto;
-            padding: 20px;
-            border-radius: 10px;
-            width: 70%;
-            max-width: 600px;
-            text-align: center;
-        }
-
         /* Keyframe Animations */
         @keyframes fadeIn {
             from {
                 opacity: 0;
             }
+
             to {
                 opacity: 1;
             }
@@ -222,6 +188,7 @@
             from {
                 transform: translateY(20px);
             }
+
             to {
                 transform: translateY(0);
             }
@@ -249,8 +216,13 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         .percentage {
@@ -259,16 +231,23 @@
         }
     </style>
 </head>
+
 <body>
 
-    <!-- Login Form Container -->
-    <div id="loginForm" class="login-container">
-        <h1>HZ University of Applied Sciences</h1>
-        <h2>Login Portal</h2>
-        <div class="input-container">
-            <input type="text" id="userId" placeholder="Enter your User ID" required>
-            <input type="password" id="password" placeholder="Enter your Password" required>
-            <button id="loginButton">Login</button>
+    <!-- Left Section (Background Image) -->
+    <div class="left-section"></div>
+
+    <!-- Right Section (Login Form Area) -->
+    <div class="right-section">
+        <!-- Login Form Container -->
+        <div id="loginForm" class="login-container">
+            <h1>HZ University of Applied Sciences</h1>
+            <h2>Login Portal</h2>
+            <div class="input-container">
+                <input type="text" id="userId" placeholder="Enter your User ID" required>
+                <input type="password" id="password" placeholder="Enter your Password" required>
+                <button id="loginButton">Login</button>
+            </div>
         </div>
     </div>
 
@@ -295,27 +274,22 @@
         </div>
     </div>
 
-    <!-- ID Card Scan Section -->
-    <div id="idCardModal" class="id-card-modal">
-        <div class="id-card-modal-content">
-            <span class="close" onclick="closeIdCardModal()">&times;</span>
-            <h2>Scan ID Card</h2>
-            <video id="idCardVideo" autoplay></video>
-            <div class="result" id="idCardMatchResult"></div>
-            <div class="loading" id="loadingSection">
-                <div class="loader"></div>
-                <span id="loadingText">Fetching Data...</span>
-                <div class="percentage" id="loadingPercentage">0%</div>
-            </div>
-        </div>
-    </div>
-
     <!-- MVV Tracking Modal -->
-    <div id="mvvTrackingModal" class="id-card-modal">
-        <div class="id-card-modal-content">
+    <div id="mvvTrackingModal" class="profile-modal">
+        <div class="profile-modal-content">
             <h2>MVV Application Tracking</h2>
             <p>Your visa application file has been forwarded to the Dutch Immigration Department (IND) for processing</p>
             <button onclick="closeMVVTrackingModal()">Close</button>
+        </div>
+    </div>
+
+    <!-- Camera Modal -->
+    <div id="idCardModal" class="profile-modal">
+        <div class="profile-modal-content">
+            <h2>Scan Your ID Card</h2>
+            <video id="idCardVideo" width="320" height="240" autoplay></video>
+            <button onclick="closeIdCardModal()">Close</button>
+            <p id="idCardMatchResult"></p>
         </div>
     </div>
 
@@ -330,11 +304,17 @@
             // Check user credentials
             if (userId === "LAL84624" && password === "LKumar212") {
                 sessionStorage.setItem('loggedIn', 'true');
+                showSidebar(); // Show sidebar for authenticated user
                 showIdCardModal(); // Show ID Card modal for scanning
             } else {
                 alert("Invalid User ID or Password.");
             }
         });
+
+        // Show Sidebar
+        function showSidebar() {
+            document.getElementById('sidebar').style.display = 'flex';
+        }
 
         // Show Profile Modal
         function showProfileModal() {
@@ -344,6 +324,23 @@
         // Close Profile Modal
         function closeProfileModal() {
             document.getElementById('profileModal').style.display = 'none';
+        }
+
+        // Show MVV Tracking Modal
+        function showMVVTrackingModal() {
+            document.getElementById('mvvTrackingModal').style.display = 'block';
+        }
+
+        // Close MVV Tracking Modal
+        function closeMVVTrackingModal() {
+            document.getElementById('mvvTrackingModal').style.display = 'none';
+        }
+
+        // Logout function
+        function logout() {
+            sessionStorage.removeItem('loggedIn');
+            document.getElementById('sidebar').style.display = 'none'; // Hide sidebar after logout
+            window.location.reload(); // Reload the page to show the login form again
         }
 
         // Show ID Card Modal
@@ -357,12 +354,14 @@
             document.getElementById('idCardModal').style.display = 'none';
         }
 
-        // Start the camera for ID card scanning
+        // Start camera for ID card scanning
         let videoStream = null;
 
         function startCamera() {
             const video = document.getElementById('idCardVideo');
-            navigator.mediaDevices.getUserMedia({ video: true })
+            navigator.mediaDevices.getUserMedia({
+                    video: true
+                })
                 .then(stream => {
                     videoStream = stream;
                     video.srcObject = stream;
@@ -375,7 +374,7 @@
                 });
         }
 
-        // Verify ID Card with OCR (Tesseract.js)
+        // Verify ID card using OCR (Tesseract.js)
         function verifyIDCard() {
             const video = document.getElementById('idCardVideo');
             const canvas = document.createElement('canvas');
@@ -386,7 +385,11 @@
             const idCardImageData = canvas.toDataURL('image/png');
 
             Tesseract.recognize(idCardImageData, 'eng')
-                .then(({ data: { text } }) => {
+                .then(({
+                    data: {
+                        text
+                    }
+                }) => {
                     const cleanedText = text.replace(/\s+/g, ' ').trim();
 
                     if (cleanedText.includes("Department")) {
@@ -410,50 +413,25 @@
             if (videoStream) {
                 const tracks = videoStream.getTracks();
                 tracks.forEach(track => track.stop());
-                document.getElementById('idCardVideo').style.display = 'none'; // Hide the video element
             }
         }
 
-        // Start loading simulation for fetching data
+        // Start the loading animation
         function startLoadingData() {
-            let percentage = 0;
-            document.getElementById('loadingSection').style.display = 'block';
-            let interval = setInterval(() => {
-                if (percentage < 100) {
-                    percentage++;
-                    document.getElementById('loadingPercentage').innerText = `${percentage}%`;
-                } else {
-                    clearInterval(interval);
-                    document.getElementById('loadingText').innerText = "Data Fetched Successfully!";
-                    setTimeout(() => {
-                        closeIdCardModal();
-                        showDashboard();
-                    }, 1500);
-                }
-            }, 300);
-        }
-
-        // Show the dashboard
-        function showDashboard() {
-            document.getElementById('loginForm').style.display = 'none';
-            document.getElementById('sidebar').style.display = 'block';
-        }
-
-        // Show MVV Tracking Modal
-        function showMVVTrackingModal() {
-            document.getElementById('mvvTrackingModal').style.display = 'block';
-        }
-
-        // Close MVV Tracking Modal
-        function closeMVVTrackingModal() {
-            document.getElementById('mvvTrackingModal').style.display = 'none';
-        }
-
-        // Logout function
-        function logout() {
-            sessionStorage.removeItem('loggedIn');
-            window.location.reload();  // Reload the page to show the login form again
+            const loadingText = document.createElement('div');
+            loadingText.classList.add('loading');
+            loadingText.innerHTML = `
+                <span>Loading Profile...</span>
+                <div class="loader"></div>
+                <div class="percentage">50%</div>
+            `;
+            document.body.appendChild(loadingText);
+            setTimeout(() => {
+                loadingText.querySelector('.percentage').innerText = '100%';
+            }, 5000);
         }
     </script>
+
 </body>
+
 </html>

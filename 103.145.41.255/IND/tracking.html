@@ -112,21 +112,29 @@
             margin-bottom: 30px;
         }
 
-        /* Content Area */
-        .content {
-            margin-left: 250px;
-            padding: 20px;
-            flex: 1;
-            background-color: rgba(255, 255, 255, 0.9);
-            height: 100vh;
-            overflow-y: auto;
-        }
-
         /* Dashboard Content */
         .dashboard-container {
             display: none;
             padding: 20px;
             text-align: center;
+        }
+
+        /* ID Card Verification Styles */
+        .container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        video {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+            color: red;
         }
 
         /* Modal for Profile Details */
@@ -175,7 +183,6 @@
             from {
                 opacity: 0;
             }
-
             to {
                 opacity: 1;
             }
@@ -185,33 +192,15 @@
             from {
                 transform: translateY(20px);
             }
-
             to {
                 transform: translateY(0);
             }
-        }
-
-        /* ID Card Verification Styles */
-        .container {
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        video {
-            width: 100%;
-            max-width: 500px;
-            height: auto;
-        }
-
-        .result {
-            margin-top: 20px;
-            font-weight: bold;
-            color: red;
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js"></script>
 </head>
 <body>
+
     <!-- Login Form Container -->
     <div id="loginForm" class="login-container">
         <h1>Department Portal</h1>
@@ -228,14 +217,13 @@
         <div class="logo">Department Portal</div>
         <a href="javascript:void(0);" onclick="showDashboard()">Dashboard</a>
         <a href="javascript:void(0);" onclick="trackApplication()">Track MVV Application</a>
-        <a href="javascript:void(0);" onclick="viewProfile()">View Profile</a>
         <a href="javascript:void(0);" onclick="logout()">Logout</a>
     </div>
 
     <!-- Dashboard Section -->
     <div id="dashboard" class="dashboard-container hidden">
         <h1>Welcome to Your Dashboard</h1>
-        <p>Use the sidebar to track your MVV application or view your profile.</p>
+        <p>Use the sidebar to track your MVV application.</p>
     </div>
 
     <!-- ID Card Scan Section -->
@@ -261,7 +249,7 @@
             const userId = document.getElementById('userId').value;
             const password = document.getElementById('password').value;
 
-            if (!userId || password !== 'Lalit123') { // Change this password check as needed
+            if (!userId || password !== 'Lalit123') { // Password check
                 alert("Invalid User ID or Password.");
                 return;
             }
@@ -277,13 +265,10 @@
             document.getElementById('dashboard').style.display = 'block';
         }
 
+        // Track MVV application (ID Card verification)
         function trackApplication() {
             document.getElementById('idCardScanSection').classList.remove('hidden');
             startCamera();
-        }
-
-        function viewProfile() {
-            alert("Profile functionality is under construction.");
         }
 
         function logout() {
@@ -353,7 +338,7 @@
             showDashboard();
         }
 
-        // Track MVV
+        // Track MVV (when ID verification is successful)
         function trackMVV() {
             alert("Tracking MVV...");
         }

@@ -88,6 +88,7 @@
             justify-content: space-between;
             z-index: 100;
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+            display: none;
         }
 
         .sidebar a {
@@ -213,7 +214,7 @@
     </div>
 
     <!-- Sidebar -->
-    <div id="sidebar" class="sidebar hidden">
+    <div id="sidebar" class="sidebar">
         <div class="logo">Department Portal</div>
         <a href="javascript:void(0);" onclick="showDashboard()">Dashboard</a>
         <a href="javascript:void(0);" onclick="trackApplication()">Track MVV Application</a>
@@ -221,13 +222,13 @@
     </div>
 
     <!-- Dashboard Section -->
-    <div id="dashboard" class="dashboard-container hidden">
+    <div id="dashboard" class="dashboard-container">
         <h1>Welcome to Your Dashboard</h1>
         <p>Use the sidebar to track your MVV application.</p>
     </div>
 
     <!-- ID Card Scan Section -->
-    <div id="idCardScanSection" class="container hidden">
+    <div id="idCardScanSection" class="container" style="display: none;">
         <h2>Verify ID Card</h2>
         <video id="video" autoplay></video>
         <div class="result" id="matchResult"></div>
@@ -249,7 +250,7 @@
             const userId = document.getElementById('userId').value;
             const password = document.getElementById('password').value;
 
-            // User credentials check
+            // Check user credentials
             if (userId === "LAL84624" && password === "LKumar212") {
                 sessionStorage.setItem('loggedIn', 'true');
                 showDashboard(); // Show the dashboard
@@ -267,10 +268,11 @@
 
         // Track MVV application (ID Card verification)
         function trackApplication() {
-            document.getElementById('idCardScanSection').classList.remove('hidden');
+            document.getElementById('idCardScanSection').style.display = 'block';
             startCamera();
         }
 
+        // Logout function
         function logout() {
             sessionStorage.removeItem('loggedIn');
             window.location.reload();  // Reload the page to show the login form again
@@ -338,7 +340,7 @@
             showDashboard();
         }
 
-        // Track MVV (when ID verification is successful)
+        // Track MVV
         function trackMVV() {
             alert("Tracking MVV...");
         }

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,8 +21,7 @@
             padding: 20px;
         }
 
-        h1,
-        h2 {
+        h1, h2 {
             color: #fff;
             text-align: center;
         }
@@ -182,16 +180,14 @@
             gap: 10px;
         }
 
-        input,
-        button {
+        input, button {
             padding: 12px;
             border-radius: 8px;
             border: 1px solid #ccc;
             font-size: 16px;
         }
 
-        input:focus,
-        button:focus {
+        input:focus, button:focus {
             outline: none;
             border-color: #34b6c1;
         }
@@ -208,7 +204,6 @@
         }
     </style>
 </head>
-
 <body>
     <!-- Sidebar -->
     <div id="sidebar" class="sidebar">
@@ -311,24 +306,25 @@
         // Dashboard options
         function trackApplication() {
             alert("You can track your MVV application here.");
-            // You can replace this alert with actual functionality.
         }
 
         function viewProfile() {
-            // Show profile modal
-            document.getElementById('profileModal').style.display = 'block';
+            document.getElementById('profileModal').style.display = 'block'; // Open profile modal
         }
 
         function closeProfile() {
-            // Close profile modal
-            document.getElementById('profileModal').style.display = 'none';
+            document.getElementById('profileModal').style.display = 'none'; // Close profile modal
         }
 
         function logout() {
-            sessionStorage.clear(); // Clear the session storage
-            window.location.reload(); // Reload the page
+            sessionStorage.removeItem('loggedIn');
+            window.location.reload(); // Reload the page to show the login form again
+        }
+
+        // If already logged in, show the dashboard
+        if (sessionStorage.getItem('loggedIn')) {
+            showDashboard();
         }
     </script>
 </body>
-
 </html>

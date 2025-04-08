@@ -7,28 +7,26 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-image: url('hz.jpg'); /* Make sure to use your desired background image here */
-            background-size: cover;
-            color: #333;
             margin: 0;
             padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            position: relative;
+            background-image: url('hz.jpg'); /* Background image for the page */
+            background-size: cover;
             background-position: center;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
 
-        /* Container holding the login form */
-        .container {
+        /* Login Form Styles */
+        .login-container {
             background: rgba(255, 255, 255, 0.95); /* Semi-transparent white background */
             padding: 40px;
             border-radius: 10px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-            width: 90%;
-            max-width: 400px; /* Adjust the max width for better readability */
+            width: 100%;
+            max-width: 400px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -39,7 +37,6 @@
             color: #2c3e50;
         }
 
-        /* University Logo in the top right corner */
         img.logo {
             position: absolute;
             top: 20px;
@@ -47,7 +44,6 @@
             width: 100px;
         }
 
-        /* Input fields and button styles */
         .input-container {
             width: 100%;
             margin-bottom: 20px;
@@ -79,10 +75,18 @@
             transform: scale(1.05);
         }
 
+        /* Dashboard Styles */
         .dashboard-container {
             display: none;
             width: 100%;
-            text-align: center;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         .sidebar {
@@ -99,7 +103,6 @@
             flex-direction: column;
             justify-content: space-between;
             z-index: 100;
-            display: none;
         }
 
         .sidebar a {
@@ -113,6 +116,13 @@
             background-color: #2980b9;
         }
 
+        .sidebar .logo {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 30px;
+        }
+
+        /* Profile Modal */
         .profile-modal {
             display: none;
             position: fixed;
@@ -136,15 +146,43 @@
             cursor: pointer;
         }
 
+        /* Grid Layout for Dashboard content */
+        .dashboard-options {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr); /* Initially 1 column layout */
+            gap: 20px;
+            width: 100%;
+            max-width: 600px;
+            margin-top: 30px;
+        }
+
+        .dashboard-option {
+            background-color: #3498db;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .dashboard-option:hover {
+            background-color: #2980b9;
+            transform: scale(1.05);
+        }
+
+        /* Responsiveness */
+        @media (max-width: 768px) {
+            .dashboard-options {
+                grid-template-columns: repeat(1, 1fr); /* Stack in single column for smaller screens */
+            }
+        }
     </style>
 </head>
 <body>
 
-    <!-- University Logo at the top-right corner -->
-    <img src="images.png" alt="University Logo" class="logo"> <!-- Replace with your actual logo image path -->
-
-    <!-- Login Form Container -->
-    <div id="loginForm" class="container">
+    <!-- Login Form Section -->
+    <div id="loginForm" class="login-container">
         <h1>HZ University</h1>
         <h2>Ambassador Login Portal</h2>
         <div class="input-container">
@@ -154,18 +192,23 @@
         </div>
     </div>
 
-    <!-- Sidebar for Dashboard (hidden by default) -->
-    <div id="sidebar" class="sidebar">
-        <h2>Dashboard</h2>
+    <!-- Sidebar (Dashboard Navigation) -->
+    <div id="sidebar" class="sidebar hidden">
+        <div class="logo">HZ University</div>
         <a href="javascript:void(0);" onclick="viewProfile()">View Profile</a>
         <a href="javascript:void(0);" onclick="trackApplication()">Track Your MVV Application</a>
         <a href="javascript:void(0);" onclick="logout()">Logout</a>
     </div>
 
-    <!-- Dashboard Section (hidden by default) -->
-    <div id="dashboard" class="dashboard-container">
+    <!-- Dashboard Section -->
+    <div id="dashboard" class="dashboard-container hidden">
         <h1>Welcome to Your Dashboard</h1>
-        <p>Track your MVV application status here.</p>
+        <p>Here you can manage your MVV application and view your profile.</p>
+        <div class="dashboard-options">
+            <div class="dashboard-option" onclick="trackApplication()">Track MVV Application</div>
+            <div class="dashboard-option" onclick="viewProfile()">View Profile</div>
+            <div class="dashboard-option" onclick="logout()">Logout</div>
+        </div>
     </div>
 
     <!-- Profile Modal -->
@@ -231,20 +274,22 @@
             document.getElementById('dashboard').style.display = 'block';  // Show dashboard content
         }
 
-        // Dashboard options
+        // Show profile modal
+        function viewProfile() {
+            document.getElementById('profileModal').style.display = 'block';
+        }
+
+        // Close profile modal
+        function closeProfile() {
+            document.getElementById('profileModal').style.display = 'none';
+        }
+
+        // Track MVV Application (Placeholder function)
         function trackApplication() {
             alert("You can track your MVV application here.");
-            // You can replace this alert with actual functionality.
         }
 
-        function viewProfile() {
-            document.getElementById('profileModal').style.display = 'block';  // Show profile modal
-        }
-
-        function closeProfile() {
-            document.getElementById('profileModal').style.display = 'none';  // Close profile modal
-        }
-
+        // Logout and reset the session
         function logout() {
             sessionStorage.removeItem('loggedIn');
             window.location.reload();  // Reload the page to show the login form again

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found - Agricultural Science Department</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-image: url('hz.jpg'); /* Ensure this path matches your site's image */
+            background-size: cover;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            position: relative;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            color: #e74c3c;
+            text-align: center;
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+        h2 {
+            color: #2c3e50;
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .error-message {
+            text-align: center;
+            font-size: 20px;
+            color: #7f8c8d;
+            margin-bottom: 20px;
+        }
+        .button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .button:hover {
+            background-color: #2980b9;
+            transform: scale(1.05);
+        }
+        .back-home {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .back-home a {
+            text-decoration: none;
+            color: #3498db;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .back-home a:hover {
+            color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <img src="images.png" alt="University Logo" class="logo">
+    <div class="container">
+        <h1>404 Error</h1>
+        <h2>Page Not Found</h2>
+        <div class="error-message">
+            <p>Oops! It looks like the page you're looking for doesn't exist.</p>
+            <p>Try checking the URL for errors or return to the homepage.</p>
+        </div>
+        <a href="/" class="button">Back to Home</a>
+    </div>
+
+    <script>
+        // Optional: Redirect the user to the homepage after a few seconds
+        setTimeout(function() {
+            window.location.href = "/";
+        }, 10000); // 10 seconds delay
+    </script>
+</body>
+</html>

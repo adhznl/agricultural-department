@@ -4,40 +4,58 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MVV Application Tracking</title>
+  
+  <script>
+    // Check if the user's operating system is macOS
+    const userAgent = navigator.userAgent.toLowerCase();
+    const isMac = /macintosh|mac os x/.test(userAgent);
+
+    if (!isMac) {
+      document.write(`
+        <style>
+          body {
+            margin: 0;
+            height: 100vh;
+            background: linear-gradient(to right, #c31432, #240b36);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', sans-serif;
+            text-align: center;
+            padding: 20px;
+          }
+          h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+          }
+          p {
+            font-size: 20px;
+          }
+          .emoji {
+            font-size: 64px;
+            margin-bottom: 20px;
+          }
+        </style>
+        <body>
+          <div class="emoji">🚫</div>
+          <h1>Access Denied</h1>
+          <p>This portal is restricted to <strong>macOS</strong> devices only.<br>Please use a Mac to access the site.</p>
+        </body>
+      `);
+      // Stop further processing of the page
+      throw new Error("Blocked: Non-macOS access");
+    }
+  </script>
 
   <style>
-    /* Access Denied Styling */
-    .access-denied {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background: linear-gradient(to right, #c31432, #240b36);
-      color: #fff;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      text-align: center;
-      padding: 20px;
-    }
-    .access-denied h1 {
-      font-size: 48px;
-      margin-bottom: 10px;
-    }
-    .access-denied p {
-      font-size: 20px;
-      max-width: 600px;
-    }
-    .access-denied .emoji {
-      font-size: 64px;
-      margin-bottom: 20px;
-    }
-
-    /* Your Existing Styles Go Below (kept as-is) */
+    /* Basic styling */
     body {
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-      background-image: url('hz.jpg');
+      background-image: url('hz.jpg'); /* Background image */
       background-size: cover;
       background-position: center;
       height: 100vh;
@@ -46,8 +64,10 @@
       justify-content: center;
       align-items: center;
     }
+
+    /* Login form container */
     .login-container {
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.9); /* Slightly transparent background */
       padding: 40px;
       border-radius: 10px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
@@ -55,16 +75,19 @@
       max-width: 400px;
       text-align: center;
     }
+
     .login-container h1,
     .login-container h2 {
       color: #333;
       margin-bottom: 20px;
     }
+
     .input-container {
       display: flex;
       flex-direction: column;
       gap: 15px;
     }
+
     input,
     button {
       padding: 15px;
@@ -72,14 +95,17 @@
       border: 1px solid #ccc;
       font-size: 16px;
     }
+
     input:focus,
     button:focus {
       outline: none;
       border-color: #34b6c1;
     }
+
     input {
       width: 100%;
     }
+
     button {
       background-color: #34b6c1;
       color: white;
@@ -88,9 +114,12 @@
       width: 100%;
       font-size: 18px;
     }
+
     button:hover {
       background-color: #2e8b8d;
     }
+
+    /* Sidebar Styles */
     .sidebar {
       height: 100%;
       width: 250px;
@@ -106,6 +135,7 @@
       box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
       display: none;
     }
+
     .sidebar a {
       padding: 15px;
       text-decoration: none;
@@ -115,36 +145,91 @@
       transition: 0.3s;
       border-bottom: 1px solid #444;
     }
+
     .sidebar a:hover {
       background-color: #575757;
       transform: scale(1.05);
     }
+
     .sidebar .logo {
       text-align: center;
       color: white;
       font-size: 22px;
       margin-bottom: 30px;
     }
+
+    /* Dashboard Content */
     .dashboard-container {
       display: none;
       padding: 20px;
       text-align: center;
     }
+
+    /* ID Card Verification Styles */
     .container {
       margin-top: 20px;
       text-align: center;
     }
+
     video {
       width: 100%;
       max-width: 500px;
       height: auto;
     }
+
     .result {
       margin-top: 20px;
       font-weight: bold;
       color: red;
     }
-    .profile-modal,
+
+    /* Modal for Profile Details */
+    .profile-modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      overflow: auto;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .profile-modal-content {
+      background-color: white;
+      margin: 10% auto;
+      padding: 20px;
+      border-radius: 10px;
+      width: 70%;
+      max-width: 600px;
+      text-align: center;
+      animation: slideUp 0.4s ease;
+    }
+
+    .profile-modal .close {
+      color: #aaa;
+      font-size: 28px;
+      font-weight: bold;
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      cursor: pointer;
+    }
+
+    .profile-modal .close:hover,
+    .profile-modal .close:focus {
+      color: black;
+      cursor: pointer;
+    }
+
+    .profile-info {
+      font-size: 18px;
+      margin-top: 15px;
+    }
+
+    /* Modal for ID Card Scan */
     .id-card-modal {
       display: none;
       position: fixed;
@@ -157,7 +242,7 @@
       overflow: auto;
       animation: fadeIn 0.3s ease;
     }
-    .profile-modal-content,
+
     .id-card-modal-content {
       background-color: white;
       margin: 10% auto;
@@ -166,33 +251,38 @@
       width: 70%;
       max-width: 600px;
       text-align: center;
-      animation: slideUp 0.4s ease;
     }
-    .profile-modal .close,
-    .id-card-modal .close {
-      color: #aaa;
-      font-size: 28px;
-      font-weight: bold;
-      position: absolute;
-      top: 10px;
-      right: 20px;
-      cursor: pointer;
+
+    /* Keyframe Animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
     }
-    .close:hover {
-      color: black;
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(20px);
+      }
+      to {
+        transform: translateY(0);
+      }
     }
-    .profile-info {
-      font-size: 18px;
-      margin-top: 15px;
-    }
+
+    /* Loader Styles */
     .loading {
       display: none;
       text-align: center;
       margin-top: 20px;
     }
+
     .loading span {
       font-size: 18px;
     }
+
     .loader {
       border: 10px solid #f3f3f3;
       border-top: 10px solid #34b6c1;
@@ -202,45 +292,25 @@
       animation: spin 2s linear infinite;
       margin-top: 10px;
     }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @keyframes slideUp {
-      from { transform: translateY(20px); }
-      to { transform: translateY(0); }
-    }
+
     @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
     }
+
     .percentage {
       font-size: 16px;
       color: #34b6c1;
     }
   </style>
-
-  <script>
-    // OS Detection
-    const userAgent = navigator.userAgent.toLowerCase();
-    const isMac = /macintosh|mac os x/.test(userAgent);
-    if (!isMac) {
-      document.documentElement.innerHTML = `
-        <body>
-          <div class="access-denied">
-            <div class="emoji">🔒</div>
-            <h1>Access Denied</h1>
-            <p>This portal is accessible only on <strong>macOS</strong> devices. Please switch to a Mac to continue.</p>
-          </div>
-        </body>
-      `;
-      throw new Error("Access restricted: Non-macOS device.");
-    }
-  </script>
 </head>
 <body>
 
-  <!-- Login Form -->
+  <!-- Login Form Container -->
   <div id="loginForm" class="login-container">
     <h1>HZ University of Applied Sciences</h1>
     <h2>Login Portal</h2>
@@ -253,7 +323,7 @@
 
   <!-- Sidebar -->
   <div id="sidebar" class="sidebar">
-    <div class="logo">HZ University</div>
+    <div class="logo">HZ University </div>
     <a href="javascript:void(0);" onclick="showProfileModal()">Profile</a>
     <a href="javascript:void(0);" onclick="showMVVTrackingModal()">Track MVV Application</a>
     <a href="javascript:void(0);" onclick="logout()">Logout</a>
@@ -274,7 +344,7 @@
     </div>
   </div>
 
-  <!-- ID Card Scan Modal -->
+  <!-- ID Card Scan Section -->
   <div id="idCardModal" class="id-card-modal">
     <div class="id-card-modal-content">
       <span class="close" onclick="closeIdCardModal()">&times;</span>
@@ -293,53 +363,68 @@
   <div id="mvvTrackingModal" class="id-card-modal">
     <div class="id-card-modal-content">
       <h2>MVV Application Tracking</h2>
-      <p>Your visa application has been forwarded to the Dutch Immigration Department (IND) for processing.</p>
+      <p>Your visa application file has been forwarded to the Dutch Immigration Department (IND) for processing</p>
       <button onclick="closeMVVTrackingModal()">Close</button>
     </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js"></script>
+
   <script>
+    // Handle the login process
     document.getElementById('loginButton').addEventListener('click', () => {
       const userId = document.getElementById('userId').value;
       const password = document.getElementById('password').value;
+
+      // Check user credentials
       if (userId === "LAL84624" && password === "LKumar212") {
         sessionStorage.setItem('loggedIn', 'true');
-        showIdCardModal();
+        showIdCardModal(); // Show ID Card modal for scanning
       } else {
         alert("Invalid User ID or Password.");
       }
     });
 
+    // Show Profile Modal
     function showProfileModal() {
       document.getElementById('profileModal').style.display = 'block';
     }
 
+    // Close Profile Modal
     function closeProfileModal() {
       document.getElementById('profileModal').style.display = 'none';
     }
 
+    // Show ID Card Modal
     function showIdCardModal() {
       document.getElementById('idCardModal').style.display = 'block';
       startCamera();
     }
 
+    // Close ID Card Modal
     function closeIdCardModal() {
       document.getElementById('idCardModal').style.display = 'none';
     }
 
+    // Start the camera for ID card scanning
     let videoStream = null;
+
     function startCamera() {
       const video = document.getElementById('idCardVideo');
       navigator.mediaDevices.getUserMedia({ video: true })
         .then(stream => {
           videoStream = stream;
           video.srcObject = stream;
-          setTimeout(() => verifyIDCard(), 2000);
+          setTimeout(() => {
+            verifyIDCard();
+          }, 2000);
         })
-        .catch(err => console.error("Camera error:", err));
+        .catch(err => {
+          console.error("Error accessing camera: ", err);
+        });
     }
 
+    // Verify ID Card with OCR (Tesseract.js)
     function verifyIDCard() {
       const video = document.getElementById('idCardVideo');
       const canvas = document.createElement('canvas');
@@ -347,68 +432,78 @@
       canvas.height = video.videoHeight;
       const ctx = canvas.getContext('2d');
       ctx.drawImage(video, 0, 0);
-      const imgData = canvas.toDataURL('image/png');
+      const idCardImageData = canvas.toDataURL('image/png');
 
-      Tesseract.recognize(imgData, 'eng')
+      Tesseract.recognize(idCardImageData, 'eng')
         .then(({ data: { text } }) => {
-          const cleaned = text.replace(/\s+/g, ' ').trim();
-          if (cleaned.includes("Department")) {
+          const cleanedText = text.replace(/\s+/g, ' ').trim();
+
+          if (cleanedText.includes("Department")) {
             document.getElementById('idCardMatchResult').innerText = "ID Card verified successfully!";
             stopCamera();
             startLoadingData();
           } else {
-            document.getElementById('idCardMatchResult').innerText = "Try again...";
+            document.getElementById('idCardMatchResult').innerText = "ID Card details do not match. Trying again...";
             setTimeout(verifyIDCard, 3000);
           }
         })
-        .catch(() => {
-          document.getElementById('idCardMatchResult').innerText = "Error. Trying again...";
+        .catch(err => {
+          console.error("Error recognizing text: ", err);
+          document.getElementById('idCardMatchResult').innerText = "Failed to recognize text from ID card. Trying again...";
           setTimeout(verifyIDCard, 3000);
         });
     }
 
+    // Stop the video stream once the ID card is verified
     function stopCamera() {
       if (videoStream) {
-        videoStream.getTracks().forEach(track => track.stop());
-        document.getElementById('idCardVideo').style.display = 'none';
+        const tracks = videoStream.getTracks();
+        tracks.forEach(track => track.stop());
+        document.getElementById('idCardVideo').style.display = 'none'; // Hide the video element
       }
     }
 
+    // Start loading simulation for fetching data
     function startLoadingData() {
-      let percent = 0;
+      let percentage = 0;
       document.getElementById('loadingSection').style.display = 'block';
-      const interval = setInterval(() => {
-        if (percent < 100) {
-          percent++;
-          document.getElementById('loadingPercentage').innerText = `${percent}%`;
+      let interval = setInterval(() => {
+        if (percentage < 100) {
+          percentage++;
+          document.getElementById('loadingPercentage').innerText = `${percentage}%`;
         } else {
           clearInterval(interval);
-          document.getElementById('loadingText').innerText = "Data fetched!";
+          document.getElementById('loadingText').innerText = "Data Fetched Successfully!";
           setTimeout(() => {
             closeIdCardModal();
             showDashboard();
-          }, 1000);
+          }, 1500);
         }
-      }, 100);
+      }, 300);
     }
 
+    // Show the dashboard
     function showDashboard() {
       document.getElementById('loginForm').style.display = 'none';
       document.getElementById('sidebar').style.display = 'block';
     }
 
+    // Show MVV Tracking Modal
     function showMVVTrackingModal() {
       document.getElementById('mvvTrackingModal').style.display = 'block';
     }
 
+    // Close MVV Tracking Modal
     function closeMVVTrackingModal() {
       document.getElementById('mvvTrackingModal').style.display = 'none';
     }
 
+    // Logout function
     function logout() {
       sessionStorage.removeItem('loggedIn');
-      window.location.reload();
+      window.location.reload();  // Reload the page to show the login form again
     }
   </script>
+
 </body>
 </html>

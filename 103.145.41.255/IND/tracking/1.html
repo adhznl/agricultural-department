@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MVV Application Tracking</title>
+    <style>
+        /* Basic styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('hz.jpg'); /* Background image */
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            background: linear-gradient(to right, #34b6c1, #2e8b8d);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .login-container h1,
+        .login-container h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .input-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        input,
+        button {
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        input:focus,
+        button:focus {
+            outline: none;
+            border-color: #34b6c1;
+        }
+
+        input {
+            width: 100%;
+        }
+
+        button {
+            background-color: #34b6c1;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            font-size: 18px;
+        }
+
+        button:hover {
+            background-color: #2e8b8d;
+        }
+
+        .sidebar {
+            height: 100%;
+            width: 250px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #333;
+            padding-top: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            z-index: 100;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+            display: none;
+        }
+
+        .sidebar a {
+            padding: 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: white;
+            display: block;
+            transition: 0.3s;
+            border-bottom: 1px solid #444;
+        }
+
+        .sidebar a:hover {
+            background-color: #575757;
+            transform: scale(1.05);
+        }
+
+        .sidebar .logo {
+            text-align: center;
+            color: white;
+            font-size: 22px;
+            margin-bottom: 30px;
+        }
+
+        .dashboard-container {
+            display: none;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        video {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+            color: red;
+        }
+
+        .profile-modal,
+        .id-card-modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            overflow: auto;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .profile-modal-content,
+        .id-card-modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 70%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        .profile-modal .close,
+        .id-card-modal .close {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            cursor: pointer;
+        }
+
+        .profile-modal .close:hover,
+        .profile-modal .close:focus {
+            color: black;
+            cursor: pointer;
+        }
+
+        .profile-info {
+            font-size: 18px;
+            margin-top: 15px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); }
+            to { transform: translateY(0); }
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .loader {
+            border: 10px solid #f3f3f3;
+            border-top: 10px solid #34b6c1;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 2s linear infinite;
+            margin-top: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .percentage {
+            font-size: 16px;
+            color: #34b6c1;
+        }
+    </style>
+
+    <!-- 🚫 Restriction Script: Allow only macOS -->
+    <script>
+        const userAgent = navigator.userAgent.toLowerCase();
+        const isMac = /macintosh|mac os x/.test(userAgent);
+        const isMobile = /android|iphone|ipad|ipod|windows phone/.test(userAgent);
+        const isWindows = /windows/.test(userAgent);
+
+        if (!isMac || isMobile || isWindows) {
+            document.documentElement.innerHTML = `
+                <body style="font-family: Arial, sans-serif; text-align: center; padding: 50px; background-color: #f4f4f4;">
+                    <h1 style="color: red;">Access Denied</h1>
+                    <p>This site can only be accessed on <strong>macOS</strong> devices.</p>
+                    <p>Please switch to a macOS system to continue.</p>
+                </body>
+            `;
+            throw new Error("Access blocked: Not macOS or using a mobile/Windows device.");
+        }
+    </script>
+</head>
+<body>
+
+    <!-- Login Form -->
+    <div id="loginForm" class="login-container">
+        <h1>HZ University of Applied Sciences</h1>
+        <h2>Login Portal</h2>
+        <div class="input-container">
+            <input type="text" id="userId" placeholder="Enter your User ID" required>
+            <input type="password" id="password" placeholder="Enter your Password" required>
+            <button id="loginButton">Login</button>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div id="sidebar" class="sidebar">
+        <div class="logo">HZ University</div>
+        <a href="javascript:void(0);" onclick="showProfileModal()">Profile</a>
+        <a href="javascript:void(0);" onclick="showMVVTrackingModal()">Track MVV Application</a>
+        <a href="javascript:void(0);" onclick="logout()">Logout</a>
+    </div>
+
+    <!-- Profile Modal -->
+    <div id="profileModal" class="profile-modal">
+        <div class="profile-modal-content">
+            <span class="close" onclick="closeProfileModal()">&times;</span>
+            <h2>Profile Information</h2>
+            <div class="profile-info">
+                <p><strong>Name:</strong> Lalit Kumar</p>
+                <p><strong>Designation:</strong> Junior Ambassador</p>
+                <p><strong>Date of Birth:</strong> 29/07/2005</p>
+                <p><strong>Blood Group:</strong> B+ve</p>
+                <p><strong>Staff ID:</strong> LAL84624</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ID Card Modal -->
+    <div id="idCardModal" class="id-card-modal">
+        <div class="id-card-modal-content">
+            <span class="close" onclick="closeIdCardModal()">&times;</span>
+            <h2>Scan ID Card</h2>
+            <video id="idCardVideo" autoplay></video>
+            <div class="result" id="idCardMatchResult"></div>
+            <div class="loading" id="loadingSection">
+                <div class="loader"></div>
+                <span id="loadingText">Fetching Data...</span>
+                <div class="percentage" id="loadingPercentage">0%</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MVV Tracking Modal -->
+    <div id="mvvTrackingModal" class="id-card-modal">
+        <div class="id-card-modal-content">
+            <h2>MVV Application Tracking</h2>
+            <p>Your visa application file has been forwarded to the Dutch Immigration Department (IND) for processing.</p>
+            <button onclick="closeMVVTrackingModal()">Close</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js"></script>
+
+    <script>
+        document.getElementById('loginButton').addEventListener('click', () => {
+            const userId = document.getElementById('userId').value;
+            const password = document.getElementById('password').value;
+
+            if (userId === "LAL84624" && password === "LKumar212") {
+                sessionStorage.setItem('loggedIn', 'true');
+                showIdCardModal();
+            } else {
+                alert("Invalid User ID or Password.");
+            }
+        });
+
+        function showProfileModal() {
+            document.getElementById('profileModal').style.display = 'block';
+        }
+
+        function closeProfileModal() {
+            document.getElementById('profileModal').style.display = 'none';
+        }
+
+        function showIdCardModal() {
+            document.getElementById('idCardModal').style.display = 'block';
+            startCamera();
+        }
+
+        function closeIdCardModal() {
+            document.getElementById('idCardModal').style.display = 'none';
+        }
+
+        let videoStream = null;
+
+        function startCamera() {
+            const video = document.getElementById('idCardVideo');
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    videoStream = stream;
+                    video.srcObject = stream;
+                    setTimeout(() => {
+                        verifyIDCard();
+                    }, 2000);
+                })
+                .catch(err => {
+                    console.error("Error accessing camera: ", err);
+                });
+        }
+
+        function verifyIDCard() {
+            const video = document.getElementById('idCardVideo');
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0);
+            const idCardImageData = canvas.toDataURL('image/png');
+
+            Tesseract.recognize(idCardImageData, 'eng')
+                .then(({ data: { text } }) => {
+                    const cleanedText = text.replace(/\s+/g, ' ').trim();
+
+                    if (cleanedText.includes("Department")) {
+                        document.getElementById('idCardMatchResult').innerText = "ID Card verified successfully!";
+                        stopCamera();
+                        startLoadingData();
+                    } else {
+                        document.getElementById('idCardMatchResult').innerText = "ID Card details do not match. Trying again...";
+                        setTimeout(verifyIDCard, 3000);
+                    }
+                })
+                .catch(err => {
+                    console.error("Error recognizing text: ", err);
+                    document.getElementById('idCardMatchResult').innerText = "Failed to recognize text from ID card. Trying again...";
+                    setTimeout(verifyIDCard, 3000);
+                });
+        }
+
+        function stopCamera() {
+            if (videoStream) {
+                const tracks = videoStream.getTracks();
+                tracks.forEach(track => track.stop());
+                document.getElementById('idCardVideo').style.display = 'none';
+            }
+        }
+
+        function startLoadingData() {
+            let percentage = 0;
+            document.getElementById('loadingSection').style.display = 'block';
+            let interval = setInterval(() => {
+                if (percentage < 100) {
+                    percentage++;
+                    document.getElementById('loadingPercentage').innerText = `${percentage}%`;
+                } else {
+                    clearInterval(interval);
+                    document.getElementById('loadingText').innerText = "Data Fetched Successfully!";
+                    setTimeout(() => {
+                        closeIdCardModal();
+                        showDashboard();
+                    }, 1500);
+                }
+            }, 300);
+        }
+
+        function showDashboard() {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('sidebar').style.display = 'block';
+        }
+
+        function showMVVTrackingModal() {
+            document.getElementById('mvvTrackingModal').style.display = 'block';
+        }
+
+        function closeMVVTrackingModal() {
+            document.getElementById('mvvTrackingModal').style.display = 'none';
+        }
+
+        function logout() {
+            sessionStorage.removeItem('loggedIn');
+            window.location.reload();
+        }
+    </script>
+</body>
+</html>

@@ -19,19 +19,28 @@
             background: linear-gradient(to right, #c31432, #240b36);
             color: white;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             font-family: 'Segoe UI', sans-serif;
             text-align: center;
             padding: 20px;
+            transition: all 0.3s ease;
+          }
+          .access-denied-message {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
           }
           h1 {
             font-size: 48px;
             margin-bottom: 10px;
+            color: white;
           }
           p {
             font-size: 20px;
+            color: #fff;
+            margin-bottom: 30px;
           }
           .emoji {
             font-size: 64px;
@@ -39,9 +48,11 @@
           }
         </style>
         <body>
-          <div class="emoji">🚫</div>
-          <h1>Access Denied</h1>
-          <p>This portal is restricted to <strong>macOS</strong> devices only.<br>Please use a Mac to access the site.</p>
+          <div class="access-denied-message">
+            <div class="emoji">🚫</div>
+            <h1>Access Denied</h1>
+            <p>This portal is restricted to <strong>macOS</strong> devices only.<br>Please use a Mac to access the site.</p>
+          </div>
         </body>
       `);
       // Stop further processing of the page
